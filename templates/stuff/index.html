@@ -1,0 +1,113 @@
+{% extends 'stuff/base.html' %}
+
+{% load static %}
+
+{% block content-block %}
+    <div class="container">
+        <div class="row">
+            <div class="one-half column">
+                <table class="u-full-width">
+                    <thead>
+                        <tr>
+                            <th>Имя</th>
+                            <th>Фамилия</th>
+                            <th>Контакт</th>
+                            <th>День рождения</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for student in students %}
+                        <tr class="person">
+                            <td>{{ student.first_name }}</td>
+                            <td>{{ student.last_name }}</td>
+                            <td>{{ student.contact }}</td>
+                            <td>{{ student.birthday }}</td>
+                        </tr>
+                            {% for subject in subjects %}
+                            {% if subject.student.id == student.id  %}
+                                <tr>
+                                    <td>{{ subject.teacher }}</td>
+                                    <td>{{ subject.subject }}</td>
+                                    <td>{{ subject.paid_classes }}</td>
+                                </tr>
+                            {% endif %}
+                            {% endfor %}
+                    {% endfor %}
+                    </tbody>
+                  </table>
+            </div>
+            <div class="one-half column">
+                <table class="u-full-width">
+                    <thead>
+                        <tr>
+                            <th>Имя</th>
+                            <th>Фамилия</th>
+                            <th>Контакт</th>
+                            <th>День рождения</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for teacher in teachers %}
+                        <tr class="person">
+                            <td>{{ teacher.first_name }}</td>
+                            <td>{{ teacher.last_name }}</td>
+                            <td>{{ teacher.contact }}</td>
+                            <td>{{ teacher.birthday }}</td>
+                        </tr>
+                        <table class="u-full-width inner hidden">
+                            <thead>
+                                <tr>
+                                    <th>Студент</th>
+                                    <th>Предмет</th>
+                                    <th>Оплачено уроков</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for subject in subjects %}
+                            {% if subject.teacher.id == teacher.id  %}
+                                <tr>
+                                    <td>{{ subject.student }}</td>
+                                    <td>{{ subject.subject }}</td>
+                                    <td>{{ subject.paid_classes }}</td>
+                                </tr>
+                            {% endif %}
+                            {% endfor %}
+                            </tbody>
+                          </table>
+                    {% endfor %}
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="one-half column">
+                <h4>Студенты</h4>
+                <div>
+                {% for student in students %}
+                    <div class="person">
+                        <div>
+                            {{ student.first_name }}
+                            {{ student.last_name }}
+                            {{ student.contact }}
+                            {{ student.birthday }}
+                        </div>
+                        <div>
+                            {% for subject in subjects %}
+                            {% if subject.student.id == student.id  %}
+                                {{ subject.teacher }}
+                                {{ subject.subject }}
+                                {{ subject.paid_classes }}
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
