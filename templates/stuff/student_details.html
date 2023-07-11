@@ -1,0 +1,18 @@
+{% extends 'stuff/base.html' %}
+
+{% load static %}
+
+{% block content-block %}
+
+    <div class="container">
+        <div class="row">
+            <div class="nine columns">
+                {{ student.first_name }}
+                {{ student.last_name }}
+                {{ student.contact }}
+                {{ student.birthday }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
