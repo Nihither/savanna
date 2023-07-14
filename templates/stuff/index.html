@@ -19,15 +19,15 @@
                             {{ student.birthday }}
                             <a href="/student/{{ student.id }}">Details</a>
                         </div>
+                        {% for subject in subjects %}
                         <div class="inner hidden">
-                            {% for subject in subjects %}
                             {% if subject.student.id == student.id  %}
                                 {{ subject.teacher }}
                                 {{ subject.subject }}
                                 {{ subject.paid_classes }}
                             {% endif %}
-                            {% endfor %}
                         </div>
+                        {% endfor %}
                     </div>
                 {% endfor %}
                 </div>
@@ -44,24 +44,22 @@
                 <div>
                 {% for teacher in teachers %}
                     <div class="person">
-                        <div class=" row outer">
-                            <div>
-                                {{ teacher.first_name }}
-                                {{ teacher.last_name }}
-                                {{ teacher.contact }}
-                                {{ teacher.birthday }}
-                            </div>
+                        <div class="outer">
+                            {{ teacher.first_name }}
+                            {{ teacher.last_name }}
+                            {{ teacher.contact }}
+                            {{ teacher.birthday }}
                             <a href="/teacher/{{ teacher.id }}">Details</a>
                         </div>
+                        {% for subject in subjects %}
                         <div class="inner hidden">
-                            {% for subject in subjects %}
                             {% if subject.teacher.id == teacher.id  %}
                                 {{ subject.student }}
                                 {{ subject.subject }}
                                 {{ subject.paid_classes }}
                             {% endif %}
-                            {% endfor %}
                         </div>
+                        {% endfor %}
                     </div>
                 {% endfor %}
                 </div>
