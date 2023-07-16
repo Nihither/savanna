@@ -19,5 +19,18 @@ $(document).ready(function () {
         }
     });
 
+    $('.btn-list').click(function () { 
+        // alert("Button was clicked")
+        $.getJSON("api/student/list", function (data, textStatus, jqXHR) {
+            alert('start');
+            console.log(data);
+        })
+        .done(function() {})
+        .fail(function() {
+            alert('error');
+        })
+        .always(function() {});
+    });
+
 });
 
