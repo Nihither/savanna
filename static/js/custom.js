@@ -21,19 +21,19 @@ $(document).ready(function () {
 
     $('.btn-get-list').click(function (e) { 
         e.preventDefault();
-        let url = "api/student/list";
+        let person = $(this).attr('person');
+        let url = 'api/' + person + '/list';
         $.getJSON(url, function (data, textStatus, jqXHR) {
-            alert('start');
+            console.log('start');
             console.log(data);
         });
     });
 
-    $('.btn-get-one').click(function (e) { 
-        console.log('button was clicked');
+    $('.btn-get-one').click(function (e) {
         e.preventDefault();
-        // let id = $(this).attr('p_id');
-        let id = 4;
-        let url = 'api/student/' + id;
+        let person = $(this).attr('person');
+        let id = $(this).attr('p_id');
+        let url = 'api/' + person + '/' + id;
         $.getJSON(url, function (data, textStatus, jqXHR) {
                 console.log('start');
                 console.log(data);
