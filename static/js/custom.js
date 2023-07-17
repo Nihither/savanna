@@ -19,17 +19,25 @@ $(document).ready(function () {
         }
     });
 
-    $('.btn-list').click(function () { 
-        // alert("Button was clicked")
-        $.getJSON("api/student/list", function (data, textStatus, jqXHR) {
+    $('.btn-get-list').click(function (e) { 
+        e.preventDefault();
+        let url = "api/student/list";
+        $.getJSON(url, function (data, textStatus, jqXHR) {
             alert('start');
             console.log(data);
-        })
-        .done(function() {})
-        .fail(function() {
-            alert('error');
-        })
-        .always(function() {});
+        });
+    });
+
+    $('.btn-get-one').click(function (e) { 
+        console.log('button was clicked');
+        e.preventDefault();
+        // let id = $(this).attr('p_id');
+        let id = 4;
+        let url = 'api/student/' + id;
+        $.getJSON(url, function (data, textStatus, jqXHR) {
+                console.log('start');
+                console.log(data);
+        });
     });
 
 });
