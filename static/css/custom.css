@@ -1,3 +1,20 @@
 .hidden {
     display: none;
 }
+
+.modalBack {
+    display: block;
+    z-index: 1;
+    position: fixed;
+    top: 0px;
+    left: 50%;
+    bottom: 0px;
+    right: 0px;
+    background-color: lightgrey;
+}
+
+.modalClose {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+}
