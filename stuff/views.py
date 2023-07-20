@@ -1,4 +1,5 @@
 from django.shortcuts import render, HttpResponse, get_object_or_404
+from django.template import loader
 from .models import Student, Teacher, Subject
 
 
@@ -19,11 +20,11 @@ def index(request):
 def student_details(request, student_id):
     student = get_object_or_404(Student, pk=student_id)
     context = {"student": student}
-    return render(request, 'stuff/student_details.html', context=context)
+    return render(request, 'stuff/student.html', context=context)
 
 
 # Teacher details view
 def teacher_details(request, teacher_id):
     teacher = get_object_or_404(Teacher, pk=teacher_id)
     context = {"teacher": teacher}
-    return render(request, 'stuff/teacher_details.html', context=context)
+    return render(request, 'stuff/teacher.html', context=context)

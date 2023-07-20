@@ -1,8 +1,8 @@
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, Http404
 from django.views import View
 from django.core.serializers import serialize
-from .models import Student, Teacher, Subject
+from .models import Student, Teacher, Subject, SubjectList
 
 
 class StudentsList(View):
@@ -53,3 +53,33 @@ class TeacherDetails(View):
             "birthday": teacher.birthday
         }
         return JsonResponse(data)
+
+
+class PersonView(View):
+    def get(self, person, person_id):
+        if person == 'student':
+            student = Student.objects.get(pk=person_id)
+            subjects = Subject.objects.filter(student=person_id)
+            subjects_serialized = serialize('python', subjects)
+            data = {
+                "id": student.pk,
+                "first_name": student.first_name,
+                "last_name": student.last_name,
+                "contact": student.contact,
+                "birthday": student.birthday,
+                "subjects": subjects_serialized
+            }
+            return JsonResponse(data=data)
+        elif person == 'teacher':
+            teacher = Teacher.objects.get(pk=person_id)
+            subjects = Subject.objects.filter(teacher=person_id)
+            subjects_serialized = serialize('python', subjects)
+            data = {
+                "id": teacher.pk,
+                "first_name": teacher.first_name,
+                "last_name": teacher.last_name,
+                "contact": teacher.contact,
+                "birthday": teacher.birthday,
+                "subjects": subjects_serialized
+            }
+            return JsonResponse(data=data)

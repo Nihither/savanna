@@ -2,15 +2,26 @@
     display: none;
 }
 
+.inactive {
+    scroll-behavior: unset;
+}
+
 .modalBack {
-    display: block;
+    display: none;
     z-index: 1;
     position: fixed;
-    top: 0px;
+    top: 5px;
     left: 50%;
-    bottom: 0px;
+    bottom: 5px;
     right: 0px;
     background-color: lightgrey;
+    border-radius: 10px;
+}
+
+.modalActive {
+    position: relative;
+    display: block;
+    margin: 10px;
 }
 
 .modalClose {

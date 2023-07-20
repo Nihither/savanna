@@ -40,5 +40,20 @@ $(document).ready(function () {
         });
     });
 
+    $('.modalClose').click(function (e) { 
+        e.preventDefault();
+        $('.modalBack').css('display', 'none');
+    });
+
+    $('.btn-modal-open').click(function (e) { 
+        e.preventDefault();
+        $('.modalBack').css('display', 'block');
+        let person = $(this).attr('person');
+        let person_id = $(this).attr('person_id');
+        console.log(person, person_id);
+        $(this.children(person)).css('display', 'block');
+        $(person_id).css('display', 'block');
+    });
+
 });
 
