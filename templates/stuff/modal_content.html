@@ -1,0 +1,19 @@
+{% if person_type == 'student' %}
+    <h4>Детали ученика</h4>
+{% elif person_type == 'teacher' %}
+    <h4>Детали преподавателя</h4>
+{% endif %}
+<h5>{{ person.first_name }} {{ person.last_name }}</h5>
+<a href="tel:{{ person.contact }}">{{ person.contact }}</a>
+<span>{{ person.birthday }}</span>
+{% for subject in subjects %}
+    <div>
+        {% if person_type == 'teacher' %}
+            {{ subject.student }}
+        {% elif person_type == 'student' %}
+            {{ subject.teacher }}
+        {% endif %}
+        {{ subject.subject }}
+        {{ subject.paid_classes }}
+    </div>
+{% endfor %}
