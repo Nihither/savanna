@@ -56,7 +56,7 @@ class TeacherDetails(View):
 
 
 class PersonView(View):
-    def get(self, person, person_id):
+    def get(self, request, person, person_id):
         if person == 'student':
             student = Student.objects.get(pk=person_id)
             subjects = Subject.objects.filter(student=person_id)
