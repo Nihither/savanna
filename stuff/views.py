@@ -1,7 +1,11 @@
 from django.shortcuts import render, HttpResponse, get_object_or_404
 from django.template import loader
 from django.core.serializers import serialize
-from .models import Student, Teacher, Subject
+from django.utils.safestring import mark_safe
+from django.views import generic
+from datetime import datetime
+from .models import Student, Teacher, Subject, SubjectList, Event
+from .utils import Calendar
 
 
 # Index view
@@ -27,15 +31,19 @@ def student_details(request, student_id):
 # Teacher details view
 def teacher_details(request, teacher_id):
     teacher = get_object_or_404(Teacher, pk=teacher_id)
-    context = {"teacher": teacher}
+    cal = CalendarView.as_view()
+    context = {
+        "teacher": teacher,
+        "calendar": cal
+    }
     return render(request, 'stuff/teacher.html', context=context)
 
 
 # person details view
 def person_details_view(request, person, person_id):
     if person == 'student':
-            person_data = Student.objects.get(pk=person_id)
-            subjects = Subject.objects.filter(student=person_id)
+        person_data = Student.objects.get(pk=person_id)
+        subjects = Subject.objects.filter(student=person_id)
     elif person == 'teacher':
         person_data = Teacher.objects.get(pk=person_id)
         subjects = Subject.objects.filter(teacher=person_id)
@@ -47,3 +55,28 @@ def person_details_view(request, person, person_id):
     template = loader.get_template('stuff/modal_content.html')
     return HttpResponse(template.render(context, request)) 
 
+
+class CalendarView(generic.ListView):
+    model = Event
+    # template_name = 'cal/calendar.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # use today's date for the calendar
+        d = get_date(self.request.GET.get('day', None))
+
+        # Instantiate our calendar class with today's year and date
+        cal = Calendar(d.year, d.month)
+
+        # Call the formatmonth method, which returns our calendar as a table
+        html_cal = cal.formatmonth(withyear=True)
+        context['calendar'] = mark_safe(html_cal)
+        return context
+
+
+def get_date(req_day):
+    if req_day:
+        year, month = (int(x) for x in req_day.split('-'))
+        return date(year, month, day=1)
+    return datetime.today()

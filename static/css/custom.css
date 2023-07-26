@@ -6,6 +6,8 @@
     scroll-behavior: unset;
 }
 
+/* Modal window section */
+
 .modalBack {
     display: none;
     z-index: 1;
@@ -33,3 +35,5 @@
 .modalWindow {
     margin-top: 10%;
 }
+
+/* End of modal window */

@@ -41,5 +41,5 @@ class Subject(models.Model):
         return f"{self.student} {self.teacher} {self.subject}"
 
 
-class ClassTime(models.Model):
-    time = models.TimeField()
+class Event(models.Model):
+    day = models.DateField()
