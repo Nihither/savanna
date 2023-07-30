@@ -31,10 +31,12 @@ def student_details(request, student_id):
 # Teacher details view
 def teacher_details(request, teacher_id):
     teacher = get_object_or_404(Teacher, pk=teacher_id)
-    cal = CalendarView.as_view()
+    cal = Calendar(2023, 7)
+    html_cal = cal.formatmonth(withyear=True)
+    calendar = mark_safe(html_cal)
     context = {
         "teacher": teacher,
-        "calendar": cal
+        "calendar": calendar
     }
     return render(request, 'stuff/teacher.html', context=context)
 

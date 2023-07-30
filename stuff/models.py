@@ -42,4 +42,7 @@ class Subject(models.Model):
 
 
 class Event(models.Model):
-    day = models.DateField()
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
