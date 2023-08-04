@@ -31,7 +31,8 @@ def student_details(request, student_id):
 # Teacher details view
 def teacher_details(request, teacher_id):
     teacher = get_object_or_404(Teacher, pk=teacher_id)
-    cal = Calendar(2023, 7)
+    d = datetime.today()
+    cal = Calendar(d.year, d.month)
     html_cal = cal.formatmonth(withyear=True)
     calendar = mark_safe(html_cal)
     context = {
@@ -56,25 +57,6 @@ def person_details_view(request, person, person_id):
     }
     template = loader.get_template('stuff/modal_content.html')
     return HttpResponse(template.render(context, request)) 
-
-
-class CalendarView(generic.ListView):
-    model = Event
-    # template_name = 'cal/calendar.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        # use today's date for the calendar
-        d = get_date(self.request.GET.get('day', None))
-
-        # Instantiate our calendar class with today's year and date
-        cal = Calendar(d.year, d.month)
-
-        # Call the formatmonth method, which returns our calendar as a table
-        html_cal = cal.formatmonth(withyear=True)
-        context['calendar'] = mark_safe(html_cal)
-        return context
 
 
 def get_date(req_day):
