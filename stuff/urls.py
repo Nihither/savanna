@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import index, student_details, teacher_details, person_details_view
 from .api import StudentsList, StudentDetails, TeachersList, TeacherDetails, PersonView
+from .scheduler import birthday_notification
 
 
 # path starts with http://{host}/
@@ -17,5 +18,6 @@ api_patterns = [
     path('student/<int:id>', StudentDetails.as_view()),
     path('teacher/list', TeachersList.as_view()),
     path('teacher/<int:id>', TeacherDetails.as_view()),
-    path('<person>/<int:person_id>/details', PersonView.as_view())
+    path('<person>/<int:person_id>/details', PersonView.as_view()),
+    path('scheduler', birthday_notification),
 ]

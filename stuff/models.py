@@ -8,6 +8,9 @@ class Student(models.Model):
     last_name = models.CharField(max_length=20, null=True, blank=True)
     contact = models.CharField(max_length=15, null=True, blank=True)
     birthday = models.DateField(null=True, blank=True)
+    parent_first_name = models.CharField(max_length=30, null=True, blank=True)
+    parent_last_name = models.CharField(max_length=20, null=True, blank=True)
+    parent_contact = models.CharField(max_length=15, null=True, blank=True)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"

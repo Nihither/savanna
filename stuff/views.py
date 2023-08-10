@@ -3,7 +3,7 @@ from django.template import loader
 from django.core.serializers import serialize
 from django.utils.safestring import mark_safe
 from django.views import generic
-from datetime import datetime
+from datetime import datetime, timedelta
 from .models import Student, Teacher, Subject, SubjectList, Event
 from .utils import Calendar
 
@@ -13,10 +13,15 @@ def index(request):
     students = Student.objects.all()
     teachers = Teacher.objects.all()
     subjects = Subject.objects.all()
+    d = get_date()
+    coming_birthdays_this_week = Student.objects.filter(birthday__week=d.isocalendar().week)
+    coming_birthdays_next_week = Student.objects.filter(birthday__week=d.isocalendar().week+1)
     context_dict = {
         "students": students,
         "teachers": teachers,
-        "subjects": subjects
+        "subjects": subjects,
+        "coming_birthdays_this_week": coming_birthdays_this_week,
+        "coming_birthdays_next_week": coming_birthdays_next_week,
     }
     return render(request, 'stuff/index.html', context=context_dict)
 
@@ -59,8 +64,9 @@ def person_details_view(request, person, person_id):
     return HttpResponse(template.render(context, request)) 
 
 
-def get_date(req_day):
-    if req_day:
-        year, month = (int(x) for x in req_day.split('-'))
-        return date(year, month, day=1)
+def get_date():
     return datetime.today()
+
+
+def get_future_date(delta):
+    return get_date() + timedelta(days=delta)
