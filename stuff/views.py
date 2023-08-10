@@ -1,14 +1,14 @@
 from django.shortcuts import render, HttpResponse, get_object_or_404
 from django.template import loader
-from django.core.serializers import serialize
 from django.utils.safestring import mark_safe
-from django.views import generic
+from django.contrib.auth.decorators import login_required
 from datetime import datetime, timedelta
 from .models import Student, Teacher, Subject, SubjectList, Event
 from .utils import Calendar
 
 
 # Index view
+@login_required
 def index(request):
     students = Student.objects.all()
     teachers = Teacher.objects.all()
@@ -27,6 +27,7 @@ def index(request):
 
 
 # Student details vire
+@login_required
 def student_details(request, student_id):
     student = get_object_or_404(Student, pk=student_id)
     context = {"student": student}
@@ -34,6 +35,7 @@ def student_details(request, student_id):
 
 
 # Teacher details view
+@login_required
 def teacher_details(request, teacher_id):
     teacher = get_object_or_404(Teacher, pk=teacher_id)
     d = datetime.today()
@@ -48,6 +50,7 @@ def teacher_details(request, teacher_id):
 
 
 # person details view
+@login_required
 def person_details_view(request, person, person_id):
     if person == 'student':
         person_data = Student.objects.get(pk=person_id)
