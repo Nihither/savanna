@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from .models import Student
 from datetime import datetime, timedelta
 import requests
@@ -25,4 +26,4 @@ def birthday_notification(request):
     if students:
         r = requests.post(url=url, params=params)
 
-    return None
+    return HttpResponse(request, r.status_code)
