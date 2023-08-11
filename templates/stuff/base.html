@@ -24,7 +24,22 @@
     <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
 
 </head>
-<body class="inactive">
+<body>
+
+    <!-- Username/Login/Logout header -->
+
+    <div class="container">
+        <div class="row u-full-width">
+            <div class="two columns u-pull-right">
+                {% if user.is_authenticated %}
+                    {{ user.username }}
+                    <a href="">Logout</a>
+                {% else %}
+                    <a href="{% url 'login' %}">Login</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 
     <!-- Primary Page Layout –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
