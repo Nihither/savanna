@@ -2,7 +2,7 @@ from django.urls import path
 from .views import index, student_details, teacher_details, person_details_view
 from .api import StudentsList, StudentDetails, TeachersList, TeacherDetails, PersonView
 from .scheduler import birthday_notification
-from .account_views import user_login
+from .account_views import user_login, user_logout
 
 
 # path starts with http://{host}/
@@ -26,4 +26,5 @@ api_patterns = [
 # path starts with account
 accounts_patterns = [
     path('login/', user_login, name='login'),
+    path('logout/next=<path:next>', user_logout, name='logout'),
 ]

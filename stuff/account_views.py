@@ -1,7 +1,6 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from django.contrib.auth.views import LoginView
 
 
 def user_login(request):
@@ -21,6 +20,20 @@ def user_login(request):
                 return HttpResponse("Account has been disabled")
         else:
             return HttpResponse("Invalid login details supplied.")
-    else:
-        next = request.GET.get('next')
-        return render(request, 'stuff/login.html', {'next': next, })
+    elif request.method == 'GET':
+        redirect_to = request.GET.get('next')
+        return render(request, 'stuff/login.html', {'next': redirect_to, })
+
+
+def user_logout(request, next):
+    if request.method == 'POST':
+        redirect_to = request.POST.get('next')
+        confirm = request.POST.get('submit')
+        if confirm == 'Logout':
+            logout(request)
+            return HttpResponseRedirect(redirect_to='/accounts/login')
+        else:
+            return HttpResponseRedirect(redirect_to=redirect_to)
+    elif request.method == 'GET':
+        redirect_to = next
+        return render(request, 'stuff/logout.html', {'next': redirect_to, })

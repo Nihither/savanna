@@ -1,0 +1,26 @@
+{% extends 'stuff/base.html' %}
+
+{% load static %}
+
+{% block profile-header-block %}{% endblock %}
+
+{% block content-block %}
+
+    <div class="container">
+        <div class="row">
+            <div class="one-half column">
+                <h1>Are you sure?</h1>
+
+                <form id="logout_form" method="post" action="{% url 'logout' next='/' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ next }}">
+
+                    <input type="submit" value="Logout" name="submit"/>
+
+                    <input type="submit" value="Stay logged in" name="submit">
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

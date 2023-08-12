@@ -28,24 +28,24 @@
 
     <!-- Username/Login/Logout header -->
 
-    <div class="container">
-        <div class="row u-full-width">
+    {% block profile-header-block %}
+    <div class="">
+        <div class="row">
             <div class="two columns u-pull-right">
                 {% if user.is_authenticated %}
-                    {{ user.username }}
-                    <a href="">Logout</a>
-                {% else %}
-                    <a href="{% url 'login' %}">Login</a>
+                    <span>Hello, {{ user.username }}</span>
+                    <a href="{% url 'logout' next=request.path %}">Logout</a>
                 {% endif %}
             </div>
         </div>
     </div>
+    {% endblock %}
 
     <!-- Primary Page Layout –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
     <div class="container">
         <div class="row">
-        <div class="one-half column" style="margin-top: 15%"></div>
+        <div class="one-half column" style="margin-top: 10%"></div>
         </div>
     </div>
 
