@@ -21,7 +21,7 @@ class TeacherAdmin(admin.ModelAdmin):
 
 
 class SubjectAdmin(admin.ModelAdmin):
-    list_display = ['student', 'teacher', 'subject', 'paid_classes']
+    list_display = ['student', 'teacher', 'subject']
     ordering = ['student']
 
 

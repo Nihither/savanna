@@ -38,7 +38,6 @@ class Subject(models.Model):
     student = models.ForeignKey(to='Student', on_delete=models.CASCADE, null=True, blank=True)
     teacher = models.ForeignKey(to='Teacher', on_delete=models.CASCADE, null=True, blank=True)
     subject = models.ForeignKey(to='SubjectList', on_delete=models.CASCADE, null=True, blank=True)
-    paid_classes = models.SmallIntegerField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.student} {self.teacher} {self.subject}"
