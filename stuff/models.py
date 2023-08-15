@@ -43,11 +43,22 @@ class Subject(models.Model):
         return f"{self.student} {self.teacher} {self.subject}"
 
 
-class Event(models.Model):
-    title = models.CharField(max_length=200)
-    description = models.TextField()
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
+class SubjectClass(models.Model):
+    days = (
+        (0, 'ПН'),
+        (1, 'ВТ'),
+        (2, 'СР'),
+        (3, 'ЧТ'),
+        (4, 'ПТ'),
+        (5, 'СБ'),
+        (6, 'ВС')
+    )
+    subject = models.ForeignKey(to='Subject', on_delete=models.CASCADE)
+    day = models.SmallIntegerField(choices=days)
+    start_time = models.TimeField()
+
+    def __str__(self):
+        return f"{self.subject} {self.day} {self.start_time}"
 
 
 class UserProfile(models.Model):

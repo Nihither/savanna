@@ -3,7 +3,7 @@ from django.template import loader
 from django.utils.safestring import mark_safe
 from django.contrib.auth.decorators import login_required
 from datetime import datetime, timedelta
-from .models import Student, Teacher, Subject, SubjectList, Event
+from .models import Student, Teacher, Subject, SubjectList
 from .utils import Calendar
 
 
