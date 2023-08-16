@@ -39,8 +39,8 @@ def student_details(request, student_id):
 def teacher_details(request, teacher_id):
     teacher = get_object_or_404(Teacher, pk=teacher_id)
     d = datetime.today()
-    cal = Calendar(d.year, d.month)
-    html_cal = cal.formatmonth(withyear=True)
+    cal = Calendar(year=d.year, month=d.month)
+    html_cal = cal.formatmonth(withyear=True, teacher_id=teacher_id)
     calendar = mark_safe(html_cal)
     context = {
         "teacher": teacher,
