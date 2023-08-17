@@ -5,7 +5,7 @@
 
     <!-- Basic Page Needs –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <meta charset="utf-8">
-    <title>Savanna</title>
+    <title>{% block title %}Savanna{% endblock %}</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -31,10 +31,11 @@
     {% block profile-header-block %}
     <div class="">
         <div class="row">
-            <div class="two columns u-pull-right">
+            <div class="three columns u-pull-right">
                 {% if user.is_authenticated %}
                     <span>Hello, {{ user.username }}</span>
                     <a href="{% url 'logout' next=request.path %}">Logout</a>
+                    <a href="{% url 'password_change' %}">Change password</a>
                 {% endif %}
             </div>
         </div>

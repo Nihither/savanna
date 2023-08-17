@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import os.path
 from pathlib import Path
 
+import django.core.mail.backends.console
+
 import stuff.apps
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -141,3 +143,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DEFAULT_CHARSET = 'utf-8'
 
 LOGIN_URL = '/accounts/login'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
