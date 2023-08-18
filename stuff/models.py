@@ -61,6 +61,20 @@ class SubjectClass(models.Model):
         return f"{self.subject} {self.day} {self.start_time}"
 
 
+class ExtraClass(models.Model):
+    subject = models.ForeignKey(to='Subject', on_delete=models.CASCADE)
+    moved_from_date = models.DateField(null=True, blank=True)
+    moved_from_start_time = models.TimeField(null=True, blank=True)
+    moved_to_date = models.DateField(null=True, blank=True)
+    moved_to_start_time = models.TimeField(null=True, blank=True)
+    statuses = (
+        (-1, 'Отменен'),
+        (1, 'Добавлен'),
+        (0, 'Перенесен')
+    )
+    status = models.SmallIntegerField(choices=statuses)
+
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     contact = models.CharField(max_length=15, null=True, blank=True)
