@@ -16,7 +16,7 @@
     <meta name="author" content="">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'css/normalize.css' %}"> -->
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
     <link rel="stylesheet" href="{% static 'css/custom.css' %}">
 
@@ -41,6 +41,7 @@
                     <span class="icon-bar"></span>
                 </button>
             </div>
+            {% if user.is_authenticated %}
             <div class="collapse navbar-collapse" id="bs-navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="#">Link template</a></li>
@@ -49,7 +50,7 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <p class="navbar-text">Hello, {username}</p>
+                        <p class="navbar-text">Hello, {{ user.username }}</p>
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -67,6 +68,7 @@
                     </li>
                 </ul>
             </div>
+            {% endif %}
         </div>
     </div>
 
@@ -82,9 +84,9 @@
 
     <!-- scripts links -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="{% static 'js/jquery-3.7.0.js' %}"></script>
+    <!-- <script src="{% static 'js/jquery-3.7.0.js' %}"></script> -->
     <script src="{% static 'js/bootstrap.js' %}"></script>
-    <script src="{% static 'js/custom.js' %}"></script>
+    <!-- <script src="{% static 'js/custom.js' %}"></script> -->
 
 </body>
 </html>

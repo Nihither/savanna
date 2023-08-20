@@ -6,21 +6,21 @@
 
 {% block content-block %}
 
-    <div class="container">
-        <div class="row">
-            <div class="one-half column">
-                <h1>Are you sure?</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-md-5">
+            <h1>Are you sure?</h1>
 
-                <form id="logout_form" method="post" action="{% url 'logout' next='/' %}">
-                    {% csrf_token %}
+            <form class="form-inline" id="logout-form" method="post" action="{% url 'logout' next='/' %}">
+                {% csrf_token %}
+                <div class="form-group">
                     <input type="hidden" name="next" value="{{ next }}">
-
-                    <input type="submit" value="Logout" name="submit"/>
-
-                    <input type="submit" value="Stay logged in" name="submit">
-                </form>
-            </div>
+                    <button class="btn btn-default" type="submit" value="Logout" name="submit">Logout</button>
+                    <button class="btn btn-default" type="submit" value="Stay logged in" name="submit">Stay logged in</button>
+                </div>
+            </form>
         </div>
     </div>
+</div>
 
 {% endblock %}

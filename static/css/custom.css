@@ -1,9 +1,5 @@
-.hidden {
-    display: none;
-}
-
-.inactive {
-    scroll-behavior: unset;
+body {
+  padding-bottom: 70px;
 }
 
 /* Modal window section */
@@ -40,7 +36,7 @@
 
 /* Calendar section */
 
-.calendar {
+/* .calendar {
     width: 98%;
     margin: auto;
     font-size: 13px;
@@ -74,6 +70,6 @@
   ul {
     height: 100%;
     padding: 0px 5px 0px 20px;
-  }
+  } */
 
 /* End of Calendar section */
