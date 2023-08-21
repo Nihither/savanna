@@ -3,6 +3,7 @@ from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, 
     PasswordResetCompleteView, PasswordChangeView, PasswordChangeDoneView
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from .accouts_forms import CustomPasswordResetForm, CustomSetPasswordForm
 from savanna.settings import ALLOWED_HOSTS
 
 
@@ -54,6 +55,7 @@ class PasswordReset(PasswordResetView):
     template_name = 'accounts/password_reset.html'
     email_template_name = 'accounts/password_reset_email.html'
     subject_template_name = 'accounts/password_reset_email_subject.txt'
+    form_class = CustomPasswordResetForm
 
 
 class PasswordResetDone(PasswordResetDoneView):
@@ -62,6 +64,7 @@ class PasswordResetDone(PasswordResetDoneView):
 
 class PasswordResetConfirm(PasswordResetConfirmView):
     template_name = 'accounts/password_reset_confirm.html'
+    form_class = CustomSetPasswordForm
 
 
 class PasswordResetComplete(PasswordResetCompleteView):
