@@ -4,56 +4,79 @@
 
 {% block content-block %}
 
-    <!-- Students list -->
-    <div class="container">
-        <div class="row">
-            <div class="one-half column">
-                <h4>Студенты</h4>
-                <div>
-                {% for student in students %}
-                <div>
-                    <div class="">
-                        <div class="btn-modal-open" person="student" person_id="{{ student.id }}">
-                            {{ student.first_name }}
-                            {{ student.last_name }}
-                            {{ student.contact }}
-                            {{ student.birthday }}
-                        </div>
-                        <a href="/student/{{ student.id }}">Details</a>
-                    </div>
-                </div>
-                {% endfor %}
-                </div>
-            </div>
-        </div>
-    </div>
-    <br>
-    <!-- End of students list -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-1"></div>
 
-    <!-- Teachers list -->
-    <div class="container">
-        <div class="row">
-            <div class="one-half column">
-                <h4>Учителя</h4>
-                <div>
-                {% for teacher in teachers %}
-                <div>
-                    <div class="">
-                        <div class="btn-modal-open" person="teacher" person_id="{{ teacher.id }}">
-                            {{ teacher.first_name }}
-                            {{ teacher.last_name }}
-                            {{ teacher.contact }}
-                            {{ teacher.birthday }}
-                        </div>
-                        <a href="/teacher/{{ teacher.id }}">Details</a>
-                    </div>
+        <div class="col-md-10">
+            <ul class="nav nav-tabs">
+                <li role="presentation" class="active"><a href="#teachers_list" aria-controls="teachers_list" role="tab" data-toggle="tab">Преподаватели</a></li>
+                <li role="presentation"><a href="#students_list" aria-controls="students_list" role="tab" data-toggle="tab">Студенты</a></li>
+            </ul>
+
+            <div class="tab-content" id="index-tab-panel">
+                <!-- Teachers section -->
+                <div class="tab-pane active" role="tabpanel" id="teachers_list">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>first name</th>
+                                <th>last name</th>
+                                <th>contact</th>
+                                <th>birthday</th>
+                                <th><span class="glyphicon glyphicon-zoom-in"></span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for teacher in teachers %}
+                            <tr>
+                                <td>{% if teacher.first_name %}{{ teacher.first_name }}</td>{% else %}{% endif %}
+                                <td>{% if teacher.last_name %}{{ teacher.last_name }}</td>{% else %}{% endif %}
+                                <td>{% if teacher.contact %}{{ teacher.contact }}</td>{% else %}{% endif %}
+                                <td>{% if teacher.birthday %}{{ teacher.birthday }}</td>{% else %}{% endif %}
+                                <td><a href="/teacher/{{ teacher.id }}"><span class="glyphicon glyphicon-arrow-right"></span></a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
-                {% endfor %}
+                <!-- Students section -->
+                <div class="tab-pane" role="tabpanel" id="students_list">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>first name</th>
+                                <th>last name</th>
+                                <th>contact</th>
+                                <th>birthday</th>
+                                <th>parent_first_name</th>
+                                <th>parent_last_name</th>
+                                <th>parent_contact</th>
+                                <th><span class="glyphicon glyphicon-zoom-in"></span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for student in students %}
+                            <tr>
+                                <td>{% if student.first_name %}{{ student.first_name }}</td>{% else %}{% endif %}
+                                <td>{% if student.last_name %}{{ student.last_name }}</td>{% else %}{% endif %}
+                                <td>{% if student.contact %}{{ student.contact }}</td>{% else %}{% endif %}
+                                <td>{% if student.birthday %}{{ student.birthday }}</td>{% else %}{% endif %}
+                                <td>{% if student.parent_first_name %}{{ student.parent_first_name }}</td>{% else %}{% endif %}
+                                <td>{% if student.parent_last_name %}{{ student.parent_last_name }}</td>{% else %}{% endif %}
+                                <td>{% if student.parent_contact %}{{ student.parent_contact }}</td>{% else %}{% endif %}
+                                <td><a href="/student/{{ students.id }}"><span class="glyphicon glyphicon-arrow-right"></span></a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
+
+        <div class="col-md-1"></div>
     </div>
-    <!-- End of teachers list -->
+</div>
 
     <!-- Birthdays this week-->
     <div class="container">

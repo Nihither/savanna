@@ -30,7 +30,7 @@
 <body>
 
     <!-- Header section -->
-    <div class="navbar navbar-default">
+    <div class="navbar navbar-default" id="main-navbar">
         <div class="container">
             <div class="navbar-header">
                 <a href="{% url 'index' %}" class="navbar-brand">Stuff Savanna ABC</a>
@@ -72,15 +72,20 @@
         </div>
     </div>
 
+    <!-- Sidebar section -->
+    <!-- <div class="navbar-inverse" id="sidebar">
+
+    </div> -->
+
     <!-- Content section -->
     {% block content-block %}{% endblock %}
 
     <!-- Footer section -->
-    <div class="navbar navbar-default navbar-fixed-bottom">
+    <!-- <div class="navbar navbar-default" id="main-footer">
         <div class="container">
             <p class="navbar-text navbar-right">Developed by nihither</p>
         </div>
-    </div>
+    </div> -->
 
     <!-- scripts links -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

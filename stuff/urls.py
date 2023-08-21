@@ -9,8 +9,8 @@ from .account_views import user_login, user_logout, PasswordReset, PasswordReset
 # path starts with http://{host}/
 views_patterns = [
     path('', index, name='index'),
-    path('student/<int:student_id>/', student_details),
-    path('teacher/<int:teacher_id>/', teacher_details),
+    path('student/<int:student_id>/', student_details, name='student_details'),
+    path('teacher/<int:teacher_id>/', teacher_details, name='teacher_details'),
     path('<person>/<int:person_id>/details/', person_details_view),
 ]
 
