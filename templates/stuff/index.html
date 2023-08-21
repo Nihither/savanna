@@ -20,7 +20,6 @@
                             {{ student.birthday }}
                         </div>
                         <a href="/student/{{ student.id }}">Details</a>
-                        <button type="submit" class="btn-get-one" p_id="{{ student.id }}" person="student">Display a person</button>
                     </div>
                 </div>
                 {% endfor %}
@@ -47,7 +46,6 @@
                             {{ teacher.birthday }}
                         </div>
                         <a href="/teacher/{{ teacher.id }}">Details</a>
-                        <button type="submit" class="btn-get-one" p_id="{{ teacher.id }}" person="teacher">Display a person</button>
                     </div>
                 </div>
                 {% endfor %}
@@ -55,9 +53,6 @@
             </div>
         </div>
     </div>
-    <button type="submit" class="btn-get-list" person="student">Display a list of students</button>
-    <button type="submit" class="btn-get-list" person="teacher">Display a list of teachers</button>
-    <button class="btn-get-one">get one</button>
     <!-- End of teachers list -->
 
     <!-- Birthdays this week-->
@@ -100,7 +95,6 @@
                             {{ student.birthday }}
                         </div>
                         <a href="/student/{{ student.id }}">Details</a>
-                        <button type="submit" class="btn-get-one" p_id="{{ student.id }}" person="student">Display a person</button>
                     </div>
                 </div>
                 {% endfor %}

@@ -3,7 +3,7 @@ from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, 
     PasswordResetCompleteView, PasswordChangeView, PasswordChangeDoneView
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from .accouts_forms import CustomPasswordResetForm, CustomSetPasswordForm
+from .accouts_forms import CustomPasswordResetForm, CustomSetPasswordForm, CustomPasswordChangeForm
 from savanna.settings import ALLOWED_HOSTS
 
 
@@ -45,6 +45,7 @@ def user_logout(request, next):
 
 class PasswordChange(PasswordChangeView):
     template_name = 'accounts/password_change.html'
+    form_class = CustomPasswordChangeForm
 
 
 class PasswordChangeDone(PasswordChangeDoneView):
