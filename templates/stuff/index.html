@@ -6,17 +6,43 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-1"></div>
+        <!-- Sidebar -->
+        <div class="col-md-3">
+            <!-- Birthday this week -->
+            <div>
+                <h3>Дни рождения на этой неделе</h3>
+                <h4>Дни рождения студентов</h4>
+                {% for student in coming_birthdays_this_week %}
+                    <strong>{% if student.first_name %}{{ student.first_name }}{% else %}{% endif %} {% if student.last_name %}{{ student.last_name }}{% else %}{% endif %} {{ student.birthday }}</strong>
+                    <p>{% if student.parent_first_name %}{{ student.parent_first_name }}{% else %}{% endif %} {% if student.parent_last_name %}{{ student.parent_last_name }}{% else %}{% endif %}
+                    {% if student.contact %}{{ student.contact }}{% else %}{{ student.parent_contact }}{% endif %}</p>
+                {% endfor %}
+                <h4>Дни рождения преподавателей</h4>
+            </div>
 
-        <div class="col-md-10">
+            <!-- Birthday next week -->
+            <div>
+                <h3>Дни рождения на следующей неделе</h3>
+                <h4>Дни рождения студентов</h4>
+                {% for student in coming_birthdays_next_week %}
+                    <strong>{% if student.first_name %}{{ student.first_name }}{% else %}{% endif %} {% if student.last_name %}{{ student.last_name }}{% else %}{% endif %} {{ student.birthday }}</strong>
+                    <p>{% if student.parent_first_name %}{{ student.parent_first_name }}{% else %}{% endif %} {% if student.parent_last_name %}{{ student.parent_last_name }}{% else %}{% endif %}
+                    {% if student.contact %}{{ student.contact }}{% else %}{{ student.parent_contact }}{% endif %}</p>
+                {% endfor %}
+                <h4>Дни рождения преподавателей</h4>
+            </div>
+        </div>
+
+        <!-- Main section -->
+        <div class="col-md-9">
             <ul class="nav nav-tabs">
                 <li role="presentation" class="active"><a href="#teachers_list" aria-controls="teachers_list" role="tab" data-toggle="tab">Преподаватели</a></li>
                 <li role="presentation"><a href="#students_list" aria-controls="students_list" role="tab" data-toggle="tab">Студенты</a></li>
             </ul>
 
-            <div class="tab-content" id="index-tab-panel">
+            <div class="tab-content">
                 <!-- Teachers section -->
-                <div class="tab-pane active" role="tabpanel" id="teachers_list">
+                <div class="tab-pane in active fade" role="tabpanel" id="teachers_list">
                     <table class="table table-hover">
                         <thead>
                             <tr>
@@ -30,10 +56,10 @@
                         <tbody>
                             {% for teacher in teachers %}
                             <tr>
-                                <td>{% if teacher.first_name %}{{ teacher.first_name }}</td>{% else %}{% endif %}
-                                <td>{% if teacher.last_name %}{{ teacher.last_name }}</td>{% else %}{% endif %}
-                                <td>{% if teacher.contact %}{{ teacher.contact }}</td>{% else %}{% endif %}
-                                <td>{% if teacher.birthday %}{{ teacher.birthday }}</td>{% else %}{% endif %}
+                                <td>{% if teacher.first_name %}{{ teacher.first_name }}{% else %}{% endif %}</td>
+                                <td>{% if teacher.last_name %}{{ teacher.last_name }}{% else %}{% endif %}</td>
+                                <td>{% if teacher.contact %}{{ teacher.contact }}{% else %}{% endif %}</td>
+                                <td>{% if teacher.birthday %}{{ teacher.birthday }}{% else %}{% endif %}</td>
                                 <td><a href="/teacher/{{ teacher.id }}"><span class="glyphicon glyphicon-arrow-right"></span></a></td>
                             </tr>
                             {% endfor %}
@@ -41,7 +67,7 @@
                     </table>
                 </div>
                 <!-- Students section -->
-                <div class="tab-pane" role="tabpanel" id="students_list">
+                <div class="tab-pane fade" role="tabpanel" id="students_list">
                     <table class="table table-hover">
                         <thead>
                             <tr>
@@ -58,13 +84,13 @@
                         <tbody>
                             {% for student in students %}
                             <tr>
-                                <td>{% if student.first_name %}{{ student.first_name }}</td>{% else %}{% endif %}
-                                <td>{% if student.last_name %}{{ student.last_name }}</td>{% else %}{% endif %}
-                                <td>{% if student.contact %}{{ student.contact }}</td>{% else %}{% endif %}
-                                <td>{% if student.birthday %}{{ student.birthday }}</td>{% else %}{% endif %}
-                                <td>{% if student.parent_first_name %}{{ student.parent_first_name }}</td>{% else %}{% endif %}
-                                <td>{% if student.parent_last_name %}{{ student.parent_last_name }}</td>{% else %}{% endif %}
-                                <td>{% if student.parent_contact %}{{ student.parent_contact }}</td>{% else %}{% endif %}
+                                <td>{% if student.first_name %}{{ student.first_name }}{% else %}{% endif %}</td>
+                                <td>{% if student.last_name %}{{ student.last_name }}{% else %}{% endif %}</td>
+                                <td>{% if student.contact %}{{ student.contact }}{% else %}{% endif %}</td>
+                                <td>{% if student.birthday %}{{ student.birthday }}{% else %}{% endif %}</td>
+                                <td>{% if student.parent_first_name %}{{ student.parent_first_name }}{% else %}{% endif %}</td>
+                                <td>{% if student.parent_last_name %}{{ student.parent_last_name }}{% else %}{% endif %}</td>
+                                <td>{% if student.parent_contact %}{{ student.parent_contact }}{% else %}{% endif %}</td>
                                 <td><a href="/student/{{ students.id }}"><span class="glyphicon glyphicon-arrow-right"></span></a></td>
                             </tr>
                             {% endfor %}
@@ -73,68 +99,17 @@
                 </div>
             </div>
         </div>
-
-        <div class="col-md-1"></div>
     </div>
 </div>
 
-    <!-- Birthdays this week-->
-    <div class="container">
-        <div class="row">
-            <div class="one-half column">
-                <h4>Birthdays this week</h4>
-                <div>
-                {% for student in coming_birthdays_this_week %}
-                <div>
-                    <div class="">
-                        <div class="btn-modal-open" person="student" person_id="{{ student.id }}">
-                            {{ student.first_name }}
-                            {{ student.last_name }}
-                            {{ student.contact }}
-                            {{ student.birthday }}
-                        </div>
-                        <a href="/student/{{ student.id }}">Details</a>
-                        <button type="submit" class="btn-get-one" p_id="{{ student.id }}" person="student">Display a person</button>
-                    </div>
-                </div>
-                {% endfor %}
-                </div>
-            </div>
+<!-- Modal window section -->
+<div class="container modalBack">
+    <div class="row modalActive">
+        <div class="modalClose">
+            <img src="{% static 'images/icon-cross.png' %}" />
         </div>
+        <div class="one-half column modalWindow"></div>
     </div>
-    <!-- Birthdays next week -->
-    <div class="container">
-        <div class="row">
-            <div class="one-half column">
-                <h4>Birthdays next week</h4>
-                <div>
-                {% for student in coming_birthdays_next_week %}
-                <div>
-                    <div class="">
-                        <div class="btn-modal-open" person="student" person_id="{{ student.id }}">
-                            {{ student.first_name }}
-                            {{ student.last_name }}
-                            {{ student.contact }}
-                            {{ student.birthday }}
-                        </div>
-                        <a href="/student/{{ student.id }}">Details</a>
-                    </div>
-                </div>
-                {% endfor %}
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End of birthdays list -->
-
-    <!-- Modal window section -->
-    <div class="container modalBack">
-        <div class="row modalActive">
-            <div class="modalClose">
-                <img src="{% static 'images/icon-cross.png' %}" />
-            </div>
-            <div class="one-half column modalWindow"></div>
-        </div>
-    </div>
+</div>
 
 {% endblock %}
