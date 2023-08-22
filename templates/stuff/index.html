@@ -113,7 +113,7 @@
                                 <td>{% if student.parent_first_name %}{{ student.parent_first_name }}{% else %}{% endif %}</td>
                                 <td>{% if student.parent_last_name %}{{ student.parent_last_name }}{% else %}{% endif %}</td>
                                 <td>{% if student.parent_contact %}{{ student.parent_contact }}{% else %}{% endif %}</td>
-                                <td><a href="/student/{{ students.id }}"><span class="glyphicon glyphicon-arrow-right"></span></a></td>
+                                <td><a href="/student/{{ student.id }}"><span class="glyphicon glyphicon-arrow-right"></span></a></td>
                             </tr>
                             {% endfor %}
                         </tbody>
