@@ -4,32 +4,54 @@
 
 {% block content-block %}
 
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <!-- Sidebar -->
         <div class="col-md-3">
             <!-- Birthday this week -->
             <div>
                 <h3>Дни рождения на этой неделе</h3>
-                <h4>Дни рождения студентов</h4>
-                {% for student in coming_birthdays_this_week %}
-                    <strong>{% if student.first_name %}{{ student.first_name }}{% else %}{% endif %} {% if student.last_name %}{{ student.last_name }}{% else %}{% endif %} {{ student.birthday }}</strong>
-                    <p>{% if student.parent_first_name %}{{ student.parent_first_name }}{% else %}{% endif %} {% if student.parent_last_name %}{{ student.parent_last_name }}{% else %}{% endif %}
-                    {% if student.contact %}{{ student.contact }}{% else %}{{ student.parent_contact }}{% endif %}</p>
-                {% endfor %}
-                <h4>Дни рождения преподавателей</h4>
+                {% if students_coming_birthdays_this_week or teachers_coming_birthdays_this_week %}
+                    {% if students_coming_birthdays_this_week %}
+                        <h4>Дни рождения студентов</h4>
+                        {% for student in students_coming_birthdays_this_week %}
+                            <strong>{% if student.first_name %}{{ student.first_name }}{% else %}{% endif %} {% if student.last_name %}{{ student.last_name }}{% else %}{% endif %} {{ student.birthday }}</strong>
+                            <p>{% if student.parent_first_name %}{{ student.parent_first_name }}{% else %}{% endif %} {% if student.parent_last_name %}{{ student.parent_last_name }}{% else %}{% endif %}
+                            {% if student.contact %}{{ student.contact }}{% else %}{{ student.parent_contact }}{% endif %}</p>
+                        {% endfor %}
+                    {% endif %}
+                    {% if teachers_coming_birthdays_this_week %}
+                        <h4>Дни рождения сотрудников</h4>
+                        {% for teacher in teachers_coming_birthdays_this_week %}
+                            <strong>{% if teacher.first_name %}{{ teacher.first_name }}{% else %}{% endif %} {% if teacher.last_name %}{{ teacher.last_name }}{% else %}{% endif %} {{ teacher.birthday }}</strong>
+                            <p>{% if teacher.contact %}{{ teacher.contact }}{% else %}{% endif %}</p>
+                        {% endfor %}
+                    {% endif %}
+                {% else %}
+                    <p>На этой неделе никто не празднует&#128533;</p>
+                {% endif %}
             </div>
 
             <!-- Birthday next week -->
             <div>
-                <h3>Дни рождения на следующей неделе</h3>
-                <h4>Дни рождения студентов</h4>
-                {% for student in coming_birthdays_next_week %}
-                    <strong>{% if student.first_name %}{{ student.first_name }}{% else %}{% endif %} {% if student.last_name %}{{ student.last_name }}{% else %}{% endif %} {{ student.birthday }}</strong>
-                    <p>{% if student.parent_first_name %}{{ student.parent_first_name }}{% else %}{% endif %} {% if student.parent_last_name %}{{ student.parent_last_name }}{% else %}{% endif %}
-                    {% if student.contact %}{{ student.contact }}{% else %}{{ student.parent_contact }}{% endif %}</p>
-                {% endfor %}
-                <h4>Дни рождения преподавателей</h4>
+                {% if students_coming_birthdays_next_week or teachers_coming_birthdays_next_week %}
+                    <h3>Дни рождения на следующей неделе</h3>
+                    {% if students_coming_birthdays_next_week %}
+                        <h4>Дни рождения студентов</h4>
+                        {% for student in students_coming_birthdays_next_week %}
+                            <strong>{% if student.first_name %}{{ student.first_name }}{% else %}{% endif %} {% if student.last_name %}{{ student.last_name }}{% else %}{% endif %} {{ student.birthday }}</strong>
+                            <p>{% if student.parent_first_name %}{{ student.parent_first_name }}{% else %}{% endif %} {% if student.parent_last_name %}{{ student.parent_last_name }}{% else %}{% endif %}
+                            {% if student.contact %}{{ student.contact }}{% else %}{{ student.parent_contact }}{% endif %}</p>
+                        {% endfor %}
+                    {% endif %}
+                    {% if teachers_coming_birthdays_next_week %}
+                        <h4>Дни рождения сотрудников</h4>
+                        {% for teacher in teachers_coming_birthdays_next_week %}
+                            <strong>{% if teacher.first_name %}{{ teacher.first_name }}{% else %}{% endif %} {% if teacher.last_name %}{{ teacher.last_name }}{% else %}{% endif %} {{ teacher.birthday }}</strong>
+                            <p>{% if teacher.contact %}{{ teacher.contact }}{% else %}{% endif %}</p>
+                        {% endfor %}
+                    {% endif %}
+                {% endif %}
             </div>
         </div>
 
@@ -42,7 +64,7 @@
 
             <div class="tab-content">
                 <!-- Teachers section -->
-                <div class="tab-pane in active fade" role="tabpanel" id="teachers_list">
+                <div class="tab-pane in active fade person_list" role="tabpanel" id="teachers_list">
                     <table class="table table-hover">
                         <thead>
                             <tr>
@@ -67,7 +89,7 @@
                     </table>
                 </div>
                 <!-- Students section -->
-                <div class="tab-pane fade" role="tabpanel" id="students_list">
+                <div class="tab-pane fade person_list" role="tabpanel" id="students_list">
                     <table class="table table-hover">
                         <thead>
                             <tr>
@@ -96,6 +118,7 @@
                             {% endfor %}
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -103,13 +126,13 @@
 </div>
 
 <!-- Modal window section -->
-<div class="container modalBack">
+<!-- <div class="container modalBack">
     <div class="row modalActive">
         <div class="modalClose">
             <img src="{% static 'images/icon-cross.png' %}" />
         </div>
         <div class="one-half column modalWindow"></div>
     </div>
-</div>
+</div> -->
 
 {% endblock %}

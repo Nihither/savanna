@@ -14,14 +14,18 @@ def index(request):
     teachers = Teacher.objects.all()
     subjects = Subject.objects.all()
     d = get_date()
-    coming_birthdays_this_week = Student.objects.filter(birthday__week=d.isocalendar().week)
-    coming_birthdays_next_week = Student.objects.filter(birthday__week=d.isocalendar().week+1)
+    students_coming_birthdays_this_week = Student.objects.filter(birthday__week=d.isocalendar().week)
+    teachers_coming_birthdays_this_week = Teacher.objects.filter(birthday__week=d.isocalendar().week)
+    students_coming_birthdays_next_week = Student.objects.filter(birthday__week=d.isocalendar().week+1)
+    teachers_coming_birthdays_next_week = Teacher.objects.filter(birthday__week=d.isocalendar().week+1)
     context_dict = {
         "students": students,
         "teachers": teachers,
         "subjects": subjects,
-        "coming_birthdays_this_week": coming_birthdays_this_week,
-        "coming_birthdays_next_week": coming_birthdays_next_week,
+        "students_coming_birthdays_this_week": students_coming_birthdays_this_week,
+        "students_coming_birthdays_next_week": students_coming_birthdays_next_week,
+        "teachers_coming_birthdays_this_week": teachers_coming_birthdays_this_week,
+        "teachers_coming_birthdays_next_week": teachers_coming_birthdays_next_week,
     }
     return render(request, 'stuff/index.html', context=context_dict)
 
