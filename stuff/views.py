@@ -2,8 +2,8 @@ from django.shortcuts import render, HttpResponse, get_object_or_404
 from django.template import loader
 from django.utils.safestring import mark_safe
 from django.contrib.auth.decorators import login_required
-from datetime import datetime, timedelta, date
-from .models import Student, Teacher, Subject, SubjectClass
+from datetime import datetime, timedelta, date, time
+from .models import Student, Teacher, Subject, SubjectClass, AvailableTimestamp, ExtraClass
 from .utils import Calendar
 
 
@@ -73,10 +73,46 @@ def person_details_view(request, person, person_id):
 
 def classes_per_day(request, teacher_id, year, month, day):
     d = date(year, month, day)
-    events = SubjectClass.objects.filter(subject__teacher=teacher_id, day=d.weekday()).order_by('start_time')
+    events = SubjectClass.objects.filter(subject__teacher=teacher_id, day=d.weekday())
+    timestamps = AvailableTimestamp.objects.filter(teacher=teacher_id, day=d.weekday())
+    extra_classes_canceled = ExtraClass.objects.filter(subject__teacher=teacher_id, moved_from_date=d)
+    extra_classes_added = ExtraClass.objects.filter(subject__teacher=teacher_id, moved_to_date=d)
+    scheduled_day = ''
+    for hour in range(0, 24):
+        for minute in range(0, 60, 10):
+            t = time(hour=hour, minute=minute)
+            events_per_time = events.filter(start_time=t)
+            timestamp_per_time = timestamps.filter(start_time=t)
+            canced_classes_per_time = extra_classes_canceled.filter(moved_from_start_time=t)
+            added_classes_per_time = extra_classes_added.filter(moved_to_start_time=t)
 
+            if added_classes_per_time:
+                for cls in added_classes_per_time:
+                    scheduled_day += f'<tr class="success"><td>{cls.moved_to_start_time}</td>' \
+                                     f'<td>{cls.subject.student}</td>' \
+                                     f'<td>{cls.subject.subject}</td>' \
+                                     f'<td>Добавлен</td></tr>'
+            elif canced_classes_per_time:
+                for cls in canced_classes_per_time:
+                    scheduled_day += f'<tr class="warning"><td>{cls.moved_from_start_time}</td>' \
+                                     f'<td>{cls.subject.student}</td>' \
+                                     f'<td>{cls.subject.subject}</td>' \
+                                     f'<td>Отменен</td></tr>'
+            elif events_per_time:
+                for event in events_per_time:
+                    scheduled_day += f'<tr><td>{event.start_time}</td>' \
+                                    f'<td>{event.subject.student}</td>' \
+                                    f'<td>{event.subject.subject}</td>' \
+                                    f'<td>По расписанию</td></tr>'
+            elif timestamp_per_time:
+                for timestamp in timestamp_per_time:
+                    scheduled_day += f'<tr class="info"><td>{timestamp.start_time}</td>' \
+                                     f'<td></td>' \
+                                     f'<td></td>' \
+                                     f'<td>Занятия нет</td></tr>'
+    scheduled_day_html = mark_safe(scheduled_day)
     context = {
-        "events": events,
+        "scheduled_day": scheduled_day_html,
         "d": d,
     }
     template = loader.get_template('stuff/classes_per_day.html')

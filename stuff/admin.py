@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Student, Teacher, Subject, SubjectList, SubjectClass, ExtraClass,UserProfile
+from .models import Student, Teacher, Subject, SubjectList, SubjectClass, ExtraClass, UserProfile, AvailableTimestamp
 
 
 # Register your models here.
@@ -37,3 +37,4 @@ admin.site.register(SubjectList)
 admin.site.register(UserProfile)
 admin.site.register(SubjectClass)
 admin.site.register(ExtraClass)
+admin.site.register(AvailableTimestamp)

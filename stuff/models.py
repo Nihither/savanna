@@ -75,6 +75,24 @@ class ExtraClass(models.Model):
     moved_to_start_time = models.TimeField(null=True, blank=True)
 
 
+class AvailableTimestamp(models.Model):
+    days = (
+        (0, 'ПН'),
+        (1, 'ВТ'),
+        (2, 'СР'),
+        (3, 'ЧТ'),
+        (4, 'ПТ'),
+        (5, 'СБ'),
+        (6, 'ВС')
+    )
+    teacher = models.ForeignKey(to='Teacher', on_delete=models.CASCADE)
+    day = models.SmallIntegerField(choices=days)
+    start_time = models.TimeField()
+
+    def __str__(self):
+        return f'{self.teacher} {self.day} {self.start_time}'
+
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     contact = models.CharField(max_length=15, null=True, blank=True)

@@ -2,12 +2,6 @@
 
 <table class="table">
     <tbody>
-        {% for event in events %}
-            <tr>
-                <td>{{ event.start_time }}</td>
-                <td>{{ event.subject.student }}</td>
-                <td>{{ event.subject.subject }}</td>
-            </tr>
-        {% endfor %}
+        {{ scheduled_day }}
     </tbody>
 </table>
