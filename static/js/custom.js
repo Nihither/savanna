@@ -49,5 +49,19 @@ $(document).ready(function () {
         $('.modalBack').css('display', 'block');
     });
 
+    $('.date_in_calendar').click(function (e) { 
+        e.preventDefault();
+        let teacher_id = $(this).attr('teacher');
+        let year = $(this).attr('year');
+        let month = $(this).attr('month');
+        let day = $(this).attr('day');
+        let url = `/teacher/${teacher_id}/${year}/${month}/${day}/`;
+        $.get(url, function (data, textStatus, jqXHR) {
+                $('#classes_per_day').html(data);
+            },
+            "html"
+        );
+    });
+
 });
 

@@ -2,8 +2,8 @@ from django.shortcuts import render, HttpResponse, get_object_or_404
 from django.template import loader
 from django.utils.safestring import mark_safe
 from django.contrib.auth.decorators import login_required
-from datetime import datetime, timedelta
-from .models import Student, Teacher, Subject, SubjectList
+from datetime import datetime, timedelta, date
+from .models import Student, Teacher, Subject, SubjectClass
 from .utils import Calendar
 
 
@@ -69,6 +69,18 @@ def person_details_view(request, person, person_id):
     }
     template = loader.get_template('stuff/modal_content.html')
     return HttpResponse(template.render(context, request)) 
+
+
+def classes_per_day(request, teacher_id, year, month, day):
+    d = date(year, month, day)
+    events = SubjectClass.objects.filter(subject__teacher=teacher_id, day=d.weekday()).order_by('start_time')
+
+    context = {
+        "events": events,
+        "d": d,
+    }
+    template = loader.get_template('stuff/classes_per_day.html')
+    return HttpResponse(template.render(context, request))
 
 
 def get_date():

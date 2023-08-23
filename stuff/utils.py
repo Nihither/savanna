@@ -11,20 +11,25 @@ class Calendar(HTMLCalendar):
 
     # formats a day as a td
     # filter events by day
-    def formatday(self, day, weekday, events):
+    def formatday(self, day, weekday, events, teacher_id):
         events_per_day = events.filter(day=weekday).order_by('start_time')
         d = ''
-        for event in events_per_day:
-            d += f'<li>{event}</li>'
+        if events_per_day:
+            date_html_class = 'bg-success'
+        else:
+            date_html_class = 'bg-info'
         if day != 0:
-            return f'<td><span class="">{day}</span><ul> {d} </ul></td>'
+            return f'<td class="{date_html_class} date_in_calendar" day="{day}" month="{self.month}" year="{self.year}" ' \
+                   f'teacher="{teacher_id}"">' \
+                   f'<span class="label label-default"><small>{day}</small></span>' \
+                   f'</td>'
         return '<td></td>'
 
     # formats a week as a tr
-    def formatweek(self, theweek, events):
+    def formatweek(self, theweek, events, teacher_id):
         week = ''
         for d, weekday in theweek:
-            week += self.formatday(d, weekday, events)
+            week += self.formatday(d, weekday, events, teacher_id)
         return f'<tr>{week}</tr>'
 
     def formatweekday(self, day):
@@ -56,6 +61,6 @@ class Calendar(HTMLCalendar):
         cal += f'{self.formatmonthname(self.year, self.month, withyear=withyear)}\n'
         cal += f'{self.formatweekheader()}\n'
         for week in self.monthdays2calendar(self.year, self.month):
-            cal += f'{self.formatweek(week, events)}\n'
+            cal += f'{self.formatweek(week, events, teacher_id)}\n'
         cal += f'</tbody></table>'
         return cal
