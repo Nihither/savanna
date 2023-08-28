@@ -1,54 +1,5 @@
 $(document).ready(function () {
 
-    // $('.person').hover(function () {
-    //         // over
-    //         $(this).children('.outer').addClass('on-point');
-    //     }, function () {
-    //         // out
-    //         $(this).children('.outer').removeClass('on-point');
-    //     }
-    // );
-
-    $('.btn-get-list').click(function (e) { 
-        e.preventDefault();
-        let person = $(this).attr('person');
-        let url = 'api/' + person + '/list';
-        $.getJSON(url, function (data, textStatus, jqXHR) {
-            console.log('start');
-            console.log(data);
-        });
-    });
-
-    $('.btn-get-one').click(function (e) {
-        e.preventDefault();
-        let person = $(this).attr('person');
-        let id = $(this).attr('p_id');
-        let url = 'api/' + person + '/' + id;
-        $.getJSON(url, function (data, textStatus, jqXHR) {
-                console.log('start');
-                console.log(data);
-        });
-    });
-
-    $('.modalClose').click(function (e) { 
-        e.preventDefault();
-        $('.modalBack').css('display', 'none');
-    });
-
-    $('.btn-modal-open').click(function (e) { 
-        e.preventDefault();
-        let person = $(this).attr('person');
-        let person_id = $(this).attr('person_id');
-        let url = person + '/' + person_id + '/details';
-        console.log(url);
-        $.get(url, function (data, textStatus, jqXHR) {
-                $('.modalWindow').html(data);
-            },
-            "html"
-        );
-        $('.modalBack').css('display', 'block');
-    });
-
     $('.date_in_calendar').click(function (e) { 
         e.preventDefault();
         let teacher_id = $(this).attr('teacher');
@@ -63,5 +14,59 @@ $(document).ready(function () {
         );
     });
 
+    $('.add_person').click(function (e) { 
+        e.preventDefault();
+        let person = $(this).attr('person');
+        let url = `/${person}/add/`
+        if (person == 'teacher') {
+            $("#add_person_title").text('Добавить преподавателя');
+        } else if (person == 'student') {
+            $('#add_person_title').text('Добавить студента');
+        };
+        $.get(url, function (data, textStatus, jqXHR) {
+                $('#add_person_body').html(data);
+                $('#add_person_modal').modal('toggle');
+            },
+            "html"
+        );
+    });
+
+    // how to use jq on dinamic objects
+    // $('#add_person_body').on('click', '#add_teacher_btn', function () {
+    //     console.log('click');
+    // });
+
 });
 
+function add_person() {
+    let form_data = $('#add_person_form').serialize();
+    $.ajax({
+        type: "post",
+        url: "/teacher/add/",
+        data: form_data,
+        success: function (response) {
+            $('#add_person_modal').modal('toggle');
+            show_alert(alert_text=response, alert_status='alert-success');
+            console.log('show');
+            setTimeout(() => {
+                hide_alert();
+            }, 3000);
+            console.log('hide');
+        },
+        error : function (response) {
+            $('#add_person_body').html(response.responseText);
+        }
+    });
+};
+
+function show_alert(alert_text, alert_status) {
+    const alert_body = `<div class="alert ${alert_status}" id="alert_content" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <p id="add_person_status">${alert_text}</p>
+                        </div>`;
+    $('#alert_block').html(alert_body);
+};
+
+function hide_alert() {
+    $('#alert_content').alert('close');
+};

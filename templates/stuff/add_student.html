@@ -1,0 +1,16 @@
+<form action="javascript:void(null)" onsubmit="add_person()" method="post" id="add_person_form" person="student">
+    {% csrf_token %}
+
+    {% for field in form %}
+        <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}
+                {{ field.help_text }}
+            {% endif %}
+            {% if field.errors %}{{ field.errors }}{% endif %}
+        </div>
+    {% endfor %}
+    
+    <input class="btn btn-default" id="add_person_btn" type="submit" value="Сохранить">
+</form>

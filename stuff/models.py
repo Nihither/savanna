@@ -5,39 +5,39 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class Student(models.Model):
-    first_name = models.CharField(max_length=30, null=True, blank=True)
-    last_name = models.CharField(max_length=20, null=True, blank=True)
-    contact = models.CharField(max_length=15, null=True, blank=True)
-    birthday = models.DateField(null=True, blank=True)
-    parent_first_name = models.CharField(max_length=30, null=True, blank=True)
-    parent_last_name = models.CharField(max_length=20, null=True, blank=True)
-    parent_contact = models.CharField(max_length=15, null=True, blank=True)
+    first_name = models.CharField(max_length=30, null=True, blank=True, verbose_name='Имя')
+    last_name = models.CharField(max_length=20, null=True, blank=True, verbose_name='Фамилия')
+    contact = models.CharField(max_length=15, null=True, blank=True, verbose_name='Контакт студента')
+    birthday = models.DateField(null=True, blank=True, verbose_name='День рождения')
+    parent_first_name = models.CharField(max_length=30, null=True, blank=True, verbose_name='Имя родителя')
+    parent_last_name = models.CharField(max_length=20, null=True, blank=True, verbose_name='Фамилия родителя')
+    parent_contact = models.CharField(max_length=15, null=True, blank=True, verbose_name='Контакт родителя')
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
 
 class SubjectList(models.Model):
-    subject_list_item = models.CharField(max_length=20)
+    subject_list_item = models.CharField(max_length=20, verbose_name='Предмет')
 
     def __str__(self):
         return self.subject_list_item
 
 
 class Teacher(models.Model):
-    first_name = models.CharField(max_length=30, null=True, blank=True)
-    last_name = models.CharField(max_length=30, null=True, blank=True)
-    contact = models.CharField(max_length=15, null=True, blank=True)
-    birthday = models.DateField(null=True, blank=True)
+    first_name = models.CharField(max_length=30, null=True, blank=True, verbose_name='Имя')
+    last_name = models.CharField(max_length=30, null=True, blank=True, verbose_name='Фамилия')
+    contact = models.CharField(max_length=15, null=True, blank=True, verbose_name='Контакт')
+    birthday = models.DateField(null=True, blank=True, verbose_name='День рождения')
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
 
 class Subject(models.Model):
-    student = models.ForeignKey(to='Student', on_delete=models.CASCADE, null=True, blank=True)
-    teacher = models.ForeignKey(to='Teacher', on_delete=models.CASCADE, null=True, blank=True)
-    subject = models.ForeignKey(to='SubjectList', on_delete=models.CASCADE, null=True, blank=True)
+    student = models.ForeignKey(to='Student', on_delete=models.CASCADE, null=True, blank=True, verbose_name='Преподаватель')
+    teacher = models.ForeignKey(to='Teacher', on_delete=models.CASCADE, null=True, blank=True, verbose_name='Студент')
+    subject = models.ForeignKey(to='SubjectList', on_delete=models.CASCADE, null=True, blank=True, verbose_name='Предмет')
 
     def __str__(self):
         return f"{self.student} {self.teacher} {self.subject}"
@@ -54,8 +54,8 @@ class SubjectClass(models.Model):
         (6, 'ВС')
     )
     subject = models.ForeignKey(to='Subject', on_delete=models.CASCADE)
-    day = models.SmallIntegerField(choices=days)
-    start_time = models.TimeField()
+    day = models.SmallIntegerField(choices=days, verbose_name='Дата')
+    start_time = models.TimeField(verbose_name='Время начала')
 
     def __str__(self):
         return f"{self.subject} {self.day} {self.start_time}"
@@ -68,11 +68,11 @@ class ExtraClass(models.Model):
         (1, 'Добавлен'),
         (0, 'Перенесен')
     )
-    status = models.SmallIntegerField(choices=statuses)
-    moved_from_date = models.DateField(null=True, blank=True)
-    moved_from_start_time = models.TimeField(null=True, blank=True)
-    moved_to_date = models.DateField(null=True, blank=True)
-    moved_to_start_time = models.TimeField(null=True, blank=True)
+    status = models.SmallIntegerField(choices=statuses, verbose_name='Статус')
+    moved_from_date = models.DateField(null=True, blank=True, verbose_name='Дата')
+    moved_from_start_time = models.TimeField(null=True, blank=True, verbose_name='Время начала')
+    moved_to_date = models.DateField(null=True, blank=True, verbose_name='Дата')
+    moved_to_start_time = models.TimeField(null=True, blank=True, verbose_name='Время начала')
 
 
 class AvailableTimestamp(models.Model):

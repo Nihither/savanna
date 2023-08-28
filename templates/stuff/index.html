@@ -4,7 +4,7 @@
 
 {% block content-block %}
 
-<div class="container-fluid">
+<div class="container">
     <div class="row">
         <!-- Sidebar -->
         <div class="col-md-3">
@@ -64,60 +64,75 @@
 
             <div class="tab-content">
                 <!-- Teachers section -->
-                <div class="tab-pane in active fade person_list" role="tabpanel" id="teachers_list">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>first name</th>
-                                <th>last name</th>
-                                <th>contact</th>
-                                <th>birthday</th>
-                                <th><span class="glyphicon glyphicon-zoom-in"></span></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for teacher in teachers %}
-                            <tr>
-                                <td>{% if teacher.first_name %}{{ teacher.first_name }}{% else %}{% endif %}</td>
-                                <td>{% if teacher.last_name %}{{ teacher.last_name }}{% else %}{% endif %}</td>
-                                <td>{% if teacher.contact %}{{ teacher.contact }}{% else %}{% endif %}</td>
-                                <td>{% if teacher.birthday %}{{ teacher.birthday }}{% else %}{% endif %}</td>
-                                <td><a href="/teacher/{{ teacher.id }}"><span class="glyphicon glyphicon-arrow-right"></span></a></td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                <div class="tab-pane in active fade" role="tabpanel" id="teachers_list">
+                    <div class="navbar navbar-default">
+                        <div class="container-fluid">
+                            <ul class="nav navbar-nav navbar-right">
+                                <li data-toggle="tooltip" data-placement="bottom" title="Добавить преподавателя">
+                                    <a href="" class="add_person" person="teacher" data-toggle="modal"><span class="glyphicon glyphicon-plus"></span></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="person_list">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Имя</th>
+                                    <th>Фамилия</th>
+                                    <th>Контакт</th>
+                                    <th><span class="glyphicon glyphicon-zoom-in"></span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for teacher in teachers %}
+                                <tr>
+                                    <td>{% if teacher.first_name %}{{ teacher.first_name }}{% else %}{% endif %}</td>
+                                    <td>{% if teacher.last_name %}{{ teacher.last_name }}{% else %}{% endif %}</td>
+                                    <td>{% if teacher.contact %}{{ teacher.contact }}{% else %}{% endif %}</td>
+                                    <td><a href="/teacher/{{ teacher.id }}"><span class="glyphicon glyphicon-arrow-right"></span></a></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- Students section -->
-                <div class="tab-pane fade person_list" role="tabpanel" id="students_list">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>first name</th>
-                                <th>last name</th>
-                                <th>contact</th>
-                                <th>birthday</th>
-                                <th>parent_first_name</th>
-                                <th>parent_last_name</th>
-                                <th>parent_contact</th>
-                                <th><span class="glyphicon glyphicon-zoom-in"></span></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for student in students %}
-                            <tr>
-                                <td>{% if student.first_name %}{{ student.first_name }}{% else %}{% endif %}</td>
-                                <td>{% if student.last_name %}{{ student.last_name }}{% else %}{% endif %}</td>
-                                <td>{% if student.contact %}{{ student.contact }}{% else %}{% endif %}</td>
-                                <td>{% if student.birthday %}{{ student.birthday }}{% else %}{% endif %}</td>
-                                <td>{% if student.parent_first_name %}{{ student.parent_first_name }}{% else %}{% endif %}</td>
-                                <td>{% if student.parent_last_name %}{{ student.parent_last_name }}{% else %}{% endif %}</td>
-                                <td>{% if student.parent_contact %}{{ student.parent_contact }}{% else %}{% endif %}</td>
-                                <td><a href="/student/{{ student.id }}"><span class="glyphicon glyphicon-arrow-right"></span></a></td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                <div class="tab-pane fade" role="tabpanel" id="students_list">
+                    <div class="navbar navbar-default">
+                        <div class="container-fluid">
+                            <ul class="nav navbar-nav navbar-right">
+                                <li data-toggle="tooltip" data-placement="bottom" title="Добавить студента">
+                                    <a href="" class="add_person" person="student"><span class="glyphicon glyphicon-plus"></span></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="person_list">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>first name</th>
+                                    <th>last name</th>
+                                    <th>contact</th>
+                                    <th>parent_first_name</th>
+                                    <th>parent_contact</th>
+                                    <th><span class="glyphicon glyphicon-zoom-in"></span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for student in students %}
+                                <tr>
+                                    <td>{% if student.first_name %}{{ student.first_name }}{% else %}{% endif %}</td>
+                                    <td>{% if student.last_name %}{{ student.last_name }}{% else %}{% endif %}</td>
+                                    <td>{% if student.contact %}{{ student.contact }}{% else %}{% endif %}</td>
+                                    <td>{% if student.parent_first_name %}{{ student.parent_first_name }}{% else %}{% endif %}</td>
+                                    <td>{% if student.parent_contact %}{{ student.parent_contact }}{% else %}{% endif %}</td>
+                                    <td><a href="/student/{{ student.id }}"><span class="glyphicon glyphicon-arrow-right"></span></a></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -125,14 +140,22 @@
     </div>
 </div>
 
-<!-- Modal window section -->
-<!-- <div class="container modalBack">
-    <div class="row modalActive">
-        <div class="modalClose">
-            <img src="{% static 'images/icon-cross.png' %}" />
+<!-- Modal section -->
+
+<!-- Add person modal -->
+<div class="modal fade" id="add_person_modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" area-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 id="add_person_title"></h4>
+            </div>
+            <div class="modal-body" id="add_person_body"></div>
         </div>
-        <div class="one-half column modalWindow"></div>
     </div>
-</div> -->
+</div>
+
+<!-- Alert block -->
+<div id="alert_block"></div>
 
 {% endblock %}

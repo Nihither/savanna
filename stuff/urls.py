@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import index, student_details, teacher_details, person_details_view, classes_per_day
+from .views import index, student_details, teacher_details, person_details_view, classes_per_day, add_teacher
 from .api import StudentsList, StudentDetails, TeachersList, TeacherDetails, PersonView
 from .scheduler import birthday_notification
 from .account_views import user_login, user_logout, PasswordReset, PasswordResetDone, PasswordResetConfirm, \
@@ -12,7 +12,8 @@ views_patterns = [
     path('student/<int:student_id>/', student_details, name='student_details'),
     path('teacher/<int:teacher_id>/', teacher_details, name='teacher_details'),
     path('<person>/<int:person_id>/details/', person_details_view),
-    path('teacher/<int:teacher_id>/<int:year>/<int:month>/<int:day>/', classes_per_day, name='classes_per_day')
+    path('teacher/<int:teacher_id>/<int:year>/<int:month>/<int:day>/', classes_per_day, name='classes_per_day'),
+    path('teacher/add/', add_teacher, name='add_teacher')
 ]
 
 # path starts with http://{host}/api/

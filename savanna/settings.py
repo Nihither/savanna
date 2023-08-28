@@ -144,4 +144,12 @@ DEFAULT_CHARSET = 'utf-8'
 
 LOGIN_URL = '/accounts/login'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'mail.savanna-abc.ru'
+EMAIL_HOST_USER = 'noreply@savanna-abc.ru'
+EMAIL_HOST_PASSWORD = 'sofceq-pumka4-fotcEn'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = False
+DEFAULT_FROM_EMAIL = 'noreply@savanna-abc.ru'

@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from datetime import datetime, timedelta, date, time
 from .models import Student, Teacher, Subject, SubjectClass, AvailableTimestamp, ExtraClass
 from .utils import Calendar
+from .forms import AddTeacherForm
 
 
 # Index view
@@ -71,6 +72,7 @@ def person_details_view(request, person, person_id):
     return HttpResponse(template.render(context, request)) 
 
 
+@login_required
 def classes_per_day(request, teacher_id, year, month, day):
     d = date(year, month, day)
     events = SubjectClass.objects.filter(subject__teacher=teacher_id, day=d.weekday())
@@ -117,6 +119,28 @@ def classes_per_day(request, teacher_id, year, month, day):
     }
     template = loader.get_template('stuff/classes_per_day.html')
     return HttpResponse(template.render(context, request))
+
+
+@login_required
+def add_teacher(request):
+    if request.method == 'POST':
+        form_data = AddTeacherForm(data=request.POST)
+        if form_data.is_valid():
+            new_teacher = form_data.save()
+            return HttpResponse('Сохранено успешно', status='201')
+        else:
+            context = {
+                "form": form_data,
+            }
+            template = loader.get_template('stuff/add_teacher.html')
+            return HttpResponse(template.render(context, request), status='422')
+    else:
+        form = AddTeacherForm()
+        context = {
+            "form": form,
+        }
+        template = loader.get_template('stuff/add_teacher.html')
+        return HttpResponse(template.render(context, request))
 
 
 def get_date():
