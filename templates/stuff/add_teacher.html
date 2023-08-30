@@ -1,4 +1,4 @@
-<form action="javascript:void(null)" onsubmit="add_person()" method="post" id="add_person_form" person="teacher">
+<form action="javascript:void(null)" onsubmit="add_teacher()" method="post" id="add_teacher_form" person="teacher">
     {% csrf_token %}
 
     {% for field in form %}
@@ -12,6 +12,6 @@
         </div>
     {% endfor %}
     
-    <input class="btn btn-default" id="add_person_btn" type="submit" value="Сохранить">
+    <input class="btn btn-default" id="add_teacher_btn" type="submit" value="Сохранить">
 </form>
 

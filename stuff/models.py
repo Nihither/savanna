@@ -9,6 +9,8 @@ class Student(models.Model):
     last_name = models.CharField(max_length=20, null=True, blank=True, verbose_name='Фамилия')
     contact = models.CharField(max_length=15, null=True, blank=True, verbose_name='Контакт студента')
     birthday = models.DateField(null=True, blank=True, verbose_name='День рождения')
+    is_adult = models.BooleanField(verbose_name="Взрослый", default=False)
+    rmv = models.BooleanField(verbose_name='Архивный', default=False)
     parent_first_name = models.CharField(max_length=30, null=True, blank=True, verbose_name='Имя родителя')
     parent_last_name = models.CharField(max_length=20, null=True, blank=True, verbose_name='Фамилия родителя')
     parent_contact = models.CharField(max_length=15, null=True, blank=True, verbose_name='Контакт родителя')

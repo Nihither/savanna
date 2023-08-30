@@ -5,30 +5,50 @@ from django.contrib.auth.decorators import login_required
 from datetime import datetime, timedelta, date, time
 from .models import Student, Teacher, Subject, SubjectClass, AvailableTimestamp, ExtraClass
 from .utils import Calendar
-from .forms import AddTeacherForm
+from .forms import AddTeacherForm, AddStudentForm
 
 
 # Index view
 @login_required
 def index(request):
-    students = Student.objects.all()
-    teachers = Teacher.objects.all()
-    subjects = Subject.objects.all()
+    # students = Student.objects.all()
+    # teachers = Teacher.objects.all()
+    # subjects = Subject.objects.all()
     d = get_date()
     students_coming_birthdays_this_week = Student.objects.filter(birthday__week=d.isocalendar().week)
     teachers_coming_birthdays_this_week = Teacher.objects.filter(birthday__week=d.isocalendar().week)
     students_coming_birthdays_next_week = Student.objects.filter(birthday__week=d.isocalendar().week+1)
     teachers_coming_birthdays_next_week = Teacher.objects.filter(birthday__week=d.isocalendar().week+1)
     context_dict = {
-        "students": students,
-        "teachers": teachers,
-        "subjects": subjects,
+        # "students": students,
+        # "teachers": teachers,
+        # "subjects": subjects,
         "students_coming_birthdays_this_week": students_coming_birthdays_this_week,
         "students_coming_birthdays_next_week": students_coming_birthdays_next_week,
         "teachers_coming_birthdays_this_week": teachers_coming_birthdays_this_week,
         "teachers_coming_birthdays_next_week": teachers_coming_birthdays_next_week,
     }
     return render(request, 'stuff/index.html', context=context_dict)
+
+
+@login_required
+def get_teacher_list(request):
+    teachers = Teacher.objects.all()
+    context = {
+        "teachers": teachers,
+    }
+    template = loader.get_template('stuff/teacher_list.html')
+    return HttpResponse(template.render(context, request))
+
+
+@login_required
+def get_student_list(request):
+    students = Student.objects.all()
+    context = {
+        "students": students,
+    }
+    template = loader.get_template('stuff/student_list.html')
+    return HttpResponse(template.render(context, request))
 
 
 # Student details vire
@@ -140,6 +160,28 @@ def add_teacher(request):
             "form": form,
         }
         template = loader.get_template('stuff/add_teacher.html')
+        return HttpResponse(template.render(context, request))
+
+
+@login_required
+def add_student(request):
+    if request.method == 'POST':
+        form_data = AddStudentForm(data=request.POST)
+        if form_data.is_valid():
+            new_student = form_data.save()
+            return HttpResponse('Сохранено успешно', status='201')
+        else:
+            context = {
+                "form": form_data,
+            }
+            template = loader.get_template('stuff/add_student.html')
+            return HttpResponse(template.render(context, request))
+    else:
+        form = AddStudentForm()
+        context = {
+            "form": form,
+        }
+        template = loader.get_template('stuff/add_student.html')
         return HttpResponse(template.render(context, request))
 
 

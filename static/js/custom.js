@@ -1,5 +1,8 @@
 $(document).ready(function () {
 
+    get_teacher_list();
+    get_student_list();
+
     $('.date_in_calendar').click(function (e) { 
         e.preventDefault();
         let teacher_id = $(this).attr('teacher');
@@ -38,22 +41,60 @@ $(document).ready(function () {
 
 });
 
-function add_person() {
-    let form_data = $('#add_person_form').serialize();
+function get_teacher_list() {
+    $.get("/teacher/list/", function (data, textStatus, jqXHR) {
+            $('.teacher_list').html(data);
+        },
+        "html"
+    );
+};
+
+function get_student_list() {
+    $.get("/student/list/", function (data, textStatus, jqXHR) {
+            $('.student_list').html(data);
+        },
+        "html"
+    );
+};
+
+function add_teacher() {
+    let form_data = $('#add_teacher_form').serialize();
     $.ajax({
         type: "post",
         url: "/teacher/add/",
         data: form_data,
         success: function (response) {
             $('#add_person_modal').modal('toggle');
+            get_teacher_list();
             show_alert(alert_text=response, alert_status='alert-success');
             console.log('show');
             setTimeout(() => {
                 hide_alert();
             }, 3000);
-            console.log('hide');
+
         },
         error : function (response) {
+            $('#add_person_body').html(response.responseText);
+        }
+    });
+};
+
+function add_student(params) {
+    let form_data = $('#add_student_form').serialize();
+    $.ajax({
+        type: "post",
+        url: "/student/add/",
+        data: form_data,
+        success: function (response) {
+            $('#add_person_modal').modal('toggle');
+            get_student_list();
+            show_alert(alert_text=response, alert_status='alert-success');
+            console.log('show');
+            setTimeout(() => {
+                hide_alert();
+            }, 3000);
+        },
+        error: function (response) {
             $('#add_person_body').html(response.responseText);
         }
     });
