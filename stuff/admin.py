@@ -13,13 +13,13 @@ class SubjectClassInLine(admin.StackedInline):
 
 
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ['first_name', 'last_name', 'contact', 'birthday']
+    list_display = ['first_name', 'last_name', 'contact', 'birthday', 'rmv']
     ordering = ['first_name']
     inlines = [SubjectInLine]
 
 
 class TeacherAdmin(admin.ModelAdmin):
-    list_display = ['first_name', 'last_name', 'contact', 'birthday']
+    list_display = ['first_name', 'last_name', 'contact', 'birthday', 'rmv']
     ordering = ['first_name']
     inlines = [SubjectInLine]
 

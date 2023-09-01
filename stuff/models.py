@@ -31,6 +31,7 @@ class Teacher(models.Model):
     last_name = models.CharField(max_length=30, null=True, blank=True, verbose_name='Фамилия')
     contact = models.CharField(max_length=15, null=True, blank=True, verbose_name='Контакт')
     birthday = models.DateField(null=True, blank=True, verbose_name='День рождения')
+    rmv = models.BooleanField(verbose_name='Архивный', default=False)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"

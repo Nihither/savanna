@@ -75,26 +75,7 @@
                         </div>
                     </div>
                     <div class="teacher_list">
-                        <!-- <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Имя</th>
-                                    <th>Фамилия</th>
-                                    <th>Контакт</th>
-                                    <th><span class="glyphicon glyphicon-zoom-in"></span></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for teacher in teachers %}
-                                <tr>
-                                    <td>{% if teacher.first_name %}{{ teacher.first_name }}{% else %}{% endif %}</td>
-                                    <td>{% if teacher.last_name %}{{ teacher.last_name }}{% else %}{% endif %}</td>
-                                    <td>{% if teacher.contact %}{{ teacher.contact }}{% else %}{% endif %}</td>
-                                    <td><a href="/teacher/{{ teacher.id }}"><span class="glyphicon glyphicon-arrow-right"></span></a></td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table> -->
+                        <!-- Teacher list -->
                     </div>
                 </div>
                 <!-- Students section -->
@@ -109,30 +90,7 @@
                         </div>
                     </div>
                     <div class="student_list">
-                        <!-- <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>first name</th>
-                                    <th>last name</th>
-                                    <th>contact</th>
-                                    <th>parent_first_name</th>
-                                    <th>parent_contact</th>
-                                    <th><span class="glyphicon glyphicon-zoom-in"></span></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for student in students %}
-                                <tr>
-                                    <td>{% if student.first_name %}{{ student.first_name }}{% else %}{% endif %}</td>
-                                    <td>{% if student.last_name %}{{ student.last_name }}{% else %}{% endif %}</td>
-                                    <td>{% if student.contact %}{{ student.contact }}{% else %}{% endif %}</td>
-                                    <td>{% if student.parent_first_name %}{{ student.parent_first_name }}{% else %}{% endif %}</td>
-                                    <td>{% if student.parent_contact %}{{ student.parent_contact }}{% else %}{% endif %}</td>
-                                    <td><a href="/student/{{ student.id }}"><span class="glyphicon glyphicon-arrow-right"></span></a></td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table> -->
+                        <!-- Student list -->
                     </div>
                 </div>
             </div>
@@ -142,7 +100,6 @@
 
 <!-- Modal section -->
 
-<!-- Add person modal -->
 <div class="modal fade" id="add_person_modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">

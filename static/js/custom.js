@@ -34,6 +34,40 @@ $(document).ready(function () {
         );
     });
 
+    $('.delete_person').click(function (e) { 
+        e.preventDefault();
+        let url = $(this).attr('url');
+        let form_data = $(this).children('input').serialize();
+        $.ajax({
+            type: "post",
+            url: url,
+            data: form_data,
+            success: function (response) {
+                trigger_alert(alert_text=response, alert_status='alert-success', delay=2000);
+                setTimeout(() => {
+                    location.href = "/";
+                }, (delay+1000));
+            }
+        });
+    });
+
+    $('.archive_person').click(function (e) { 
+        e.preventDefault();
+        let url = $(this).attr('url');
+        let form_data = $(this).children('input').serialize();
+        $.ajax({
+            type: "post",
+            url: url,
+            data: form_data,
+            success: function (response) {
+                trigger_alert(alert_text=response, alert_status='alert-success', delay=1000);
+                setTimeout(() => {
+                    location.reload();;
+                }, 3000);
+            }
+        });
+    });
+
     // how to use jq on dinamic objects
     // $('#add_person_body').on('click', '#add_teacher_btn', function () {
     //     console.log('click');
@@ -49,14 +83,6 @@ function get_teacher_list() {
     );
 };
 
-function get_student_list() {
-    $.get("/student/list/", function (data, textStatus, jqXHR) {
-            $('.student_list').html(data);
-        },
-        "html"
-    );
-};
-
 function add_teacher() {
     let form_data = $('#add_teacher_form').serialize();
     $.ajax({
@@ -66,17 +92,20 @@ function add_teacher() {
         success: function (response) {
             $('#add_person_modal').modal('toggle');
             get_teacher_list();
-            show_alert(alert_text=response, alert_status='alert-success');
-            console.log('show');
-            setTimeout(() => {
-                hide_alert();
-            }, 3000);
-
+            trigger_alert(alert_text=response, alert_status='alert-success', delay=2000);
         },
         error : function (response) {
             $('#add_person_body').html(response.responseText);
         }
     });
+};
+
+function get_student_list() {
+    $.get("/student/list/", function (data, textStatus, jqXHR) {
+            $('.student_list').html(data);
+        },
+        "html"
+    );
 };
 
 function add_student(params) {
@@ -88,16 +117,19 @@ function add_student(params) {
         success: function (response) {
             $('#add_person_modal').modal('toggle');
             get_student_list();
-            show_alert(alert_text=response, alert_status='alert-success');
-            console.log('show');
-            setTimeout(() => {
-                hide_alert();
-            }, 3000);
+            trigger_alert(alert_text=response, alert_status='alert-success', delay=2000);
         },
         error: function (response) {
             $('#add_person_body').html(response.responseText);
         }
     });
+};
+
+function trigger_alert(alert_text, alert_status, delay) {
+    show_alert(alert_text=alert_text, alert_status=alert_status);
+    setTimeout(() => {
+        hide_alert();
+    }, delay);
 };
 
 function show_alert(alert_text, alert_status) {
