@@ -83,9 +83,14 @@ def delete_teacher(request, teacher_id):
 def archive_teacher(request, teacher_id):
     if request.method == 'POST':
         teacher = get_object_or_404(Teacher, pk=teacher_id)
-        teacher.rmv = True
-        teacher.save()
-        return HttpResponse('Занесено в Архив')
+        if teacher.rmv:
+            teacher.rmv = False
+            teacher.save()
+            return HttpResponse('Вынесено из Архива')
+        else:
+            teacher.rmv = True
+            teacher.save()
+            return HttpResponse('Занесено в Архив')
 
 
 @login_required
@@ -125,6 +130,28 @@ def add_student(request):
         }
         template = loader.get_template('stuff/add_student.html')
         return HttpResponse(template.render(context, request))
+
+
+@login_required
+def delete_student(request, student_id):
+    if request.method == 'POST':
+        student = get_object_or_404(Student, pk=student_id)
+        student.delete()
+        return HttpResponse('Запись удалена')
+
+
+@login_required
+def archive_student(request, student_id):
+    if request.method == 'POST':
+        student = get_object_or_404(Student, pk=student_id)
+        if student.rmv:
+            student.rmv = False
+            student.save()
+            return HttpResponse('Вынесено из Архива')
+        else:
+            student.rmv = True
+            student.save()
+            return HttpResponse('Занесено в Архив')
 
 
 @login_required
