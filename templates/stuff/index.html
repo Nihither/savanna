@@ -58,42 +58,48 @@
         <!-- Main section -->
         <div class="col-md-9">
             <ul class="nav nav-tabs">
-                <li role="presentation" class="active"><a href="#teachers_list" aria-controls="teachers_list" role="tab" data-toggle="tab">Преподаватели</a></li>
-                <li role="presentation"><a href="#students_list" aria-controls="students_list" role="tab" data-toggle="tab">Студенты</a></li>
+                <li role="presentation" class="active"><a href="#teachers_list_panel" aria-controls="teachers_list" role="tab" data-toggle="tab">Преподаватели</a></li>
+                <li role="presentation"><a href="#students_list_panel" aria-controls="students_list" role="tab" data-toggle="tab">Студенты</a></li>
             </ul>
 
             <div class="tab-content">
                 <!-- Teachers section -->
-                <div class="tab-pane in active fade" role="tabpanel" id="teachers_list">
+                <div class="tab-pane in active fade" role="tabpanel" id="teachers_list_panel">
                     <div class="navbar navbar-default">
                         <div class="container-fluid">
+                            <form action="javascript:void(null)" oninput="show_search_results_teacher()" class="navbar-form navbar-left" role="search" id="search_results_teacher_form">
+                                <div class="form-group">
+                                    {% csrf_token %}
+                                    <input type="text" class="form-control" placeholder="Search" id="search_results_teacher_input">
+                                </div>
+                            </form>
                             <ul class="nav navbar-nav navbar-right">
                                 <li data-toggle="tooltip" data-placement="bottom" title="Добавить преподавателя">
-                                    <a href="" class="add_person" person="teacher" data-toggle="modal"><span class="glyphicon glyphicon-plus"></span></a>
+                                    <a href="" id="add_teacher" data-toggle="modal"><span class="glyphicon glyphicon-plus"></span></a>
                                 </li>
-                                <li class="show_active_person_list active" person="teacher"><a href="">Активные</a></li>
-                                <li class="show_archive_person_list" person="teacher"><a href="">В архиве</a></li>
+                                <li id="show_active_teacher_list active"><a href="">Активные</a></li>
+                                <li id="show_archive_teacher_list"><a href="">В архиве</a></li>
                             </ul>
                         </div>
                     </div>
-                    <div class="teacher_list">
+                    <div id="teacher_list_body">
                         <!-- Teacher list -->
                     </div>
                 </div>
                 <!-- Students section -->
-                <div class="tab-pane fade" role="tabpanel" id="students_list">
+                <div class="tab-pane fade" role="tabpanel" id="students_list_panel">
                     <div class="navbar navbar-default">
                         <div class="container-fluid">
                             <ul class="nav navbar-nav navbar-right">
                                 <li data-toggle="tooltip" data-placement="bottom" title="Добавить студента">
-                                    <a href="" class="add_person" person="student"><span class="glyphicon glyphicon-plus"></span></a>
+                                    <a href="" id="add_student"><span class="glyphicon glyphicon-plus"></span></a>
                                 </li>
-                                <li class="show_active_person_list active" person="student"><a href="">Активные</a></li>
-                                <li class="show_archive_person_list" person="student"><a href="">В архиве</a></li>
+                                <li id="show_active_student_list active"><a href="">Активные</a></li>
+                                <li id="show_archive_student_list"><a href="">В архиве</a></li>
                             </ul>
                         </div>
                     </div>
-                    <div class="student_list">
+                    <div id="student_list_body">
                         <!-- Student list -->
                     </div>
                 </div>

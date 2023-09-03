@@ -16,9 +16,10 @@
     <div class="tab-pane in active fade" role="tabpanel">
         <div class="navbar navbar-default">
             <div class="container-fluid">
+                <!-- teacher menu -->
                 <ul class="nav navbar-nav navbar-right">
                     <li data-toggle="tooltip" data-placement="bottom" title="Назначить студента">
-                        <a href="#" class="assign_student_to_teacher" data-toggle="modal"><span class="glyphicon glyphicon-plus"></span></a>
+                        <a href="#" id="assign_student_to_teacher" data-toggle="modal"><span class="glyphicon glyphicon-plus"></span></a>
                     </li>
                     <li data-toggle="tooltip" data-placement="bottom" title="Редактировать">
                         <a href="#" class=""><span class="glyphicon glyphicon-pencil"></span></a>
@@ -31,7 +32,7 @@
                             <li class="dropdown-header">Поместить в архив?</li>
                             <li class="divider" role="separator"></li>
                             <li>
-                                <a href="#" onclick="" class="archive_person" url="/teacher/{{ teacher.id }}/archive/">{% csrf_token %}
+                                <a href="#" onclick="" id="archive_teacher" url="/teacher/{{ teacher.id }}/archive/">{% csrf_token %}
                                     {% if teacher.rmv %}
                                         <span class="glyphicon glyphicon-eye-open"></span> Из архива
                                     {% else %}
@@ -41,7 +42,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="#" onclick="" class="delete_person" url="/teacher/{{ teacher.id }}/delete/">{% csrf_token %}
+                                <a href="#" onclick="" id="delete_teacher" url="/teacher/{{ teacher.id }}/delete/">{% csrf_token %}
                                     <span class="glyphicon glyphicon-trash"></span> Удалить
                                 </a>
                             </li>

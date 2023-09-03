@@ -25,7 +25,7 @@ views_patterns = [
     path('student/<int:student_id>/', student_details, name='student_details'),
     path('student/add/', add_student, name='add_student'),
     path('student/<int:student_id>/delete/', delete_student, name='delete_student'),
-    path('student/<int:student>/archive/', archive_student, name='archive_student'),
+    path('student/<int:student_id>/archive/', archive_student, name='archive_student'),
 ]
 
 # path starts with http://{host}/api/

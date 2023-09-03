@@ -19,39 +19,26 @@ $(document).ready(function () {
         );
     });
 
-    $('.show_archive_person_list').click(function (e) { 
+    // teacher section
+
+    $('#show_archive_teacher_list').click(function (e) { 
         e.preventDefault();
-        let person = $(this).attr('person');
-        if (person == 'teacher') {
-            get_teacher_archive_list();
-        } else if (person == 'student') {
-            get_student_archive_list();
-        };
+        get_teacher_archive_list();
         $(this).addClass('active');
-        $(this).siblings('.show_active_person_list').removeClass('active');
+        $('#show_active_teacher_list').removeClass('active');
     });
 
-    $('.show_active_person_list').click(function (e) { 
+    $('#show_active_teacher_list').click(function (e) { 
         e.preventDefault();
-        let person = $(this).attr('person');
-        if (person == 'teacher') {
-            get_teacher_list();
-        } else if (person == 'student') {
-            get_student_list();
-        };
+        get_teacher_list();
         $(this).addClass('active');
-        $(this).siblings('.show_archive_person_list').removeClass('active');
+        $('#show_archive_teacher_list').removeClass('active');
     });
 
-    $('.add_person').click(function (e) { 
+    $('#add_teacher').click(function (e) { 
         e.preventDefault();
-        let person = $(this).attr('person');
-        let url = `/${person}/add/`
-        if (person == 'teacher') {
-            $("#add_person_title").text('Добавить преподавателя');
-        } else if (person == 'student') {
-            $('#add_person_title').text('Добавить студента');
-        };
+        let url = '/teacher/add/';
+        $("#add_person_title").text('Добавить преподавателя');
         $.get(url, function (data, textStatus, jqXHR) {
                 $('#add_person_body').html(data);
                 $('#add_person_modal').modal('toggle');
@@ -60,7 +47,7 @@ $(document).ready(function () {
         );
     });
 
-    $('.delete_person').click(function (e) { 
+    $('#delete_teacher').click(function (e) { 
         e.preventDefault();
         let url = $(this).attr('url');
         let form_data = $(this).children('input').serialize();
@@ -77,7 +64,69 @@ $(document).ready(function () {
         });
     });
 
-    $('.archive_person').click(function (e) { 
+    $('#archive_teacher').click(function (e) { 
+        e.preventDefault();
+        let url = $(this).attr('url');
+        let form_data = $(this).children('input').serialize();
+        $.ajax({
+            type: "post",
+            url: url,
+            data: form_data,
+            success: function (response) {
+                trigger_alert(alert_text=response, alert_status='alert-success', delay=2000);
+                setTimeout(() => {
+                    location.reload();;
+                }, 2000);
+            }
+        });
+    });
+
+    // student section
+
+    $('#show_archive_student_list').click(function (e) { 
+        e.preventDefault();
+        get_student_archive_list();
+        $(this).addClass('active');
+        $('#show_active_student_list').removeClass('active');
+    });
+
+    $('#show_active_student_list').click(function (e) { 
+        e.preventDefault();
+        get_student_list();
+        $(this).addClass('active');
+        $('#show_archive_student_list').removeClass('active');
+    });
+
+    $('#add_student').click(function (e) { 
+        e.preventDefault();
+        let url = '/student/add/';
+        $("#add_person_title").text('Добавить преподавателя');
+        $.get(url, function (data, textStatus, jqXHR) {
+                $('#add_person_body').html(data);
+                $('#add_person_modal').modal('toggle');
+            },
+            "html"
+        );
+    });
+
+    $('#delete_student').click(function (e) { 
+        e.preventDefault();
+        let url = $(this).attr('url');
+        let form_data = $(this).children('input').serialize();
+        $.ajax({
+            type: "post",
+            url: url,
+            data: form_data,
+            success: function (response) {
+                trigger_alert(alert_text=response, alert_status='alert-success', delay=2000);
+                setTimeout(() => {
+                    location.href = "/";
+                }, (delay+1000));
+            }
+        });
+    });
+
+    $('#archive_student').click(function (e) { 
         e.preventDefault();
         let url = $(this).attr('url');
         let form_data = $(this).children('input').serialize();
@@ -109,7 +158,7 @@ $(document).ready(function () {
 
 function get_teacher_list() {
     $.get("/teacher/list/", function (data, textStatus, jqXHR) {
-            $('.teacher_list').html(data);
+            $('#teacher_list_body').html(data);
         },
         "html"
     );
@@ -117,9 +166,19 @@ function get_teacher_list() {
 
 function get_teacher_archive_list() {
     $.get("/teacher/list/archive/", function (data, textStatus, jqXHR) {
-            $('.teacher_list').html(data);
+            $('#teacher_list_body').html(data);
         },
         "html"
+    );
+};
+
+function get_search_results_teacher() {
+    
+    $.get("/teacher/search/", data,
+        function (data, textStatus, jqXHR) {
+            $('#teacher_list_body').html(data);
+        },
+        "dataType"
     );
 };
 
@@ -144,7 +203,7 @@ function add_teacher() {
 
 function get_student_list() {
     $.get("/student/list/", function (data, textStatus, jqXHR) {
-            $('.student_list').html(data);
+            $('#student_list_body').html(data);
         },
         "html"
     );
@@ -152,7 +211,7 @@ function get_student_list() {
 
 function get_student_archive_list() {
     $.get("/student/list/archive", function (data, textStatus, jqXHR) {
-            $('.student_list').html(data);
+            $('#student_list_body').html(data);
         },
         "html"
     );
