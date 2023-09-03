@@ -27,7 +27,17 @@ def index(request):
 
 @login_required
 def get_teacher_list(request):
-    teachers = Teacher.objects.all()
+    teachers = Teacher.objects.filter(rmv=False)
+    context = {
+        "teachers": teachers,
+    }
+    template = loader.get_template('stuff/teacher_list.html')
+    return HttpResponse(template.render(context, request))
+
+
+@login_required
+def get_teacher_archive_list(request):
+    teachers = Teacher.objects.filter(rmv=True)
     context = {
         "teachers": teachers,
     }
@@ -86,7 +96,7 @@ def archive_teacher(request, teacher_id):
         if teacher.rmv:
             teacher.rmv = False
             teacher.save()
-            return HttpResponse('Вынесено из Архива')
+            return HttpResponse('Перенесено из Архива')
         else:
             teacher.rmv = True
             teacher.save()
@@ -95,9 +105,19 @@ def archive_teacher(request, teacher_id):
 
 @login_required
 def get_student_list(request):
-    students = Student.objects.all()
+    students = Student.objects.filter(rmv=False)
     context = {
         "students": students,
+    }
+    template = loader.get_template('stuff/student_list.html')
+    return HttpResponse(template.render(context, request))
+
+
+@login_required
+def get_student_archive_list(request):
+    students = Student.objects.filter(rmv=True)
+    context = {
+        "students": students
     }
     template = loader.get_template('stuff/student_list.html')
     return HttpResponse(template.render(context, request))
@@ -147,7 +167,7 @@ def archive_student(request, student_id):
         if student.rmv:
             student.rmv = False
             student.save()
-            return HttpResponse('Вынесено из Архива')
+            return HttpResponse('Перенесено из Архива')
         else:
             student.rmv = True
             student.save()

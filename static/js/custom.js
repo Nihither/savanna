@@ -1,3 +1,5 @@
+// document ready section
+
 $(document).ready(function () {
 
     get_teacher_list();
@@ -15,6 +17,30 @@ $(document).ready(function () {
             },
             "html"
         );
+    });
+
+    $('.show_archive_person_list').click(function (e) { 
+        e.preventDefault();
+        let person = $(this).attr('person');
+        if (person == 'teacher') {
+            get_teacher_archive_list();
+        } else if (person == 'student') {
+            get_student_archive_list();
+        };
+        $(this).addClass('active');
+        $(this).siblings('.show_active_person_list').removeClass('active');
+    });
+
+    $('.show_active_person_list').click(function (e) { 
+        e.preventDefault();
+        let person = $(this).attr('person');
+        if (person == 'teacher') {
+            get_teacher_list();
+        } else if (person == 'student') {
+            get_student_list();
+        };
+        $(this).addClass('active');
+        $(this).siblings('.show_archive_person_list').removeClass('active');
     });
 
     $('.add_person').click(function (e) { 
@@ -60,10 +86,10 @@ $(document).ready(function () {
             url: url,
             data: form_data,
             success: function (response) {
-                trigger_alert(alert_text=response, alert_status='alert-success', delay=1000);
+                trigger_alert(alert_text=response, alert_status='alert-success', delay=2000);
                 setTimeout(() => {
                     location.reload();;
-                }, 3000);
+                }, 2000);
             }
         });
     });
@@ -75,8 +101,22 @@ $(document).ready(function () {
 
 });
 
+// end of document ready section
+
+// functions section
+
+// teachers
+
 function get_teacher_list() {
     $.get("/teacher/list/", function (data, textStatus, jqXHR) {
+            $('.teacher_list').html(data);
+        },
+        "html"
+    );
+};
+
+function get_teacher_archive_list() {
+    $.get("/teacher/list/archive/", function (data, textStatus, jqXHR) {
             $('.teacher_list').html(data);
         },
         "html"
@@ -100,8 +140,18 @@ function add_teacher() {
     });
 };
 
+// students
+
 function get_student_list() {
     $.get("/student/list/", function (data, textStatus, jqXHR) {
+            $('.student_list').html(data);
+        },
+        "html"
+    );
+};
+
+function get_student_archive_list() {
+    $.get("/student/list/archive", function (data, textStatus, jqXHR) {
             $('.student_list').html(data);
         },
         "html"
@@ -125,6 +175,8 @@ function add_student(params) {
     });
 };
 
+// alerts
+
 function trigger_alert(alert_text, alert_status, delay) {
     show_alert(alert_text=alert_text, alert_status=alert_status);
     setTimeout(() => {
@@ -143,3 +195,5 @@ function show_alert(alert_text, alert_status) {
 function hide_alert() {
     $('#alert_content').alert('close');
 };
+
+// end of functin section
