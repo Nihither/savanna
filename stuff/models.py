@@ -38,9 +38,12 @@ class Teacher(models.Model):
 
 
 class Subject(models.Model):
-    student = models.ForeignKey(to='Student', on_delete=models.CASCADE, null=True, blank=True, verbose_name='Студент')
-    teacher = models.ForeignKey(to='Teacher', on_delete=models.CASCADE, null=True, blank=True, verbose_name='Преподаватель')
-    subject = models.ForeignKey(to='SubjectList', on_delete=models.CASCADE, null=True, blank=True, verbose_name='Предмет')
+    student = models.ForeignKey(to='Student', on_delete=models.CASCADE, null=True, blank=True,
+                                verbose_name='Студент')
+    teacher = models.ForeignKey(to='Teacher', on_delete=models.CASCADE, null=True, blank=True,
+                                verbose_name='Преподаватель')
+    subject = models.ForeignKey(to='SubjectList', on_delete=models.CASCADE, null=True, blank=True,
+                                verbose_name='Предмет')
 
     def __str__(self):
         return f"{self.student} {self.teacher} {self.subject}"
@@ -102,4 +105,3 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return f'{self.user.first_name} {self.user.last_name}'
-

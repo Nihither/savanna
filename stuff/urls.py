@@ -1,4 +1,4 @@
-from django.urls import path, re_path
+from django.urls import path
 from .views import index, get_teacher_list, get_teacher_archive_list, teacher_details, add_teacher, delete_teacher, \
     archive_teacher, get_student_list, get_student_archive_list, student_details, add_student, delete_student, \
     archive_student, classes_per_day, get_filtered_teacher_list, get_filtered_student_list, assign_student_to_teacher, \
@@ -49,7 +49,7 @@ accounts_patterns = [
     path('logout/next=<path:next>', user_logout, name='logout'),
     path('password_reset/', PasswordReset.as_view(), name='password_reset'),
     path('password_reset/done', PasswordResetDone.as_view(), name='password_reset_done'),
-    path('password_reset/confirm/<uidb64>/<token>/', PasswordResetConfirm.as_view(), name='password_reset_confirm'),
+    path('password_reset/confirm/<idb64>/<token>/', PasswordResetConfirm.as_view(), name='password_reset_confirm'),
     path('password_reset/complete/', PasswordResetComplete.as_view(), name='password_reset_complete'),
     path('password_change/', PasswordChange.as_view(), name='password_change'),
     path('password_change/done', PasswordChangeDone.as_view(), name='password_change_done'),

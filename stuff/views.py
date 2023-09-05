@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse, get_object_or_404, Http404
+from django.shortcuts import render, HttpResponse, get_object_or_404
 from django.template import loader
 from django.utils.safestring import mark_safe
 from django.contrib.auth.decorators import login_required
@@ -14,8 +14,8 @@ def index(request):
     d = get_date()
     students_coming_birthdays_this_week = Student.objects.filter(birthday__week=d.isocalendar().week)
     teachers_coming_birthdays_this_week = Teacher.objects.filter(birthday__week=d.isocalendar().week)
-    students_coming_birthdays_next_week = Student.objects.filter(birthday__week=d.isocalendar().week+1)
-    teachers_coming_birthdays_next_week = Teacher.objects.filter(birthday__week=d.isocalendar().week+1)
+    students_coming_birthdays_next_week = Student.objects.filter(birthday__week=d.isocalendar().week + 1)
+    teachers_coming_birthdays_next_week = Teacher.objects.filter(birthday__week=d.isocalendar().week + 1)
     context_dict = {
         "students_coming_birthdays_this_week": students_coming_birthdays_this_week,
         "students_coming_birthdays_next_week": students_coming_birthdays_next_week,
@@ -50,12 +50,13 @@ def get_teacher_archive_list(request):
 def get_filtered_teacher_list(request):
     req = request.GET['req']
     print(req)
-    teachers = Teacher.objects.filter(first_name__icontains=req) | Teacher.objects.filter(last_name__icontains=req)
+    teachers = Teacher.objects.filter(first_name__icontains=req, rmv=False) | \
+        Teacher.objects.filter(last_name__icontains=req, rmv=False)
     context = {
         "teachers": teachers,
     }
     template = loader.get_template('stuff/teacher_list.html')
-    return HttpResponse(template.render(context,request))
+    return HttpResponse(template.render(context, request))
 
 
 @login_required
@@ -175,7 +176,8 @@ def get_student_archive_list(request):
 @login_required
 def get_filtered_student_list(request):
     req = request.GET['req']
-    students = Student.objects.filter(first_name__icontains=req) | Student.objects.filter(last_name__icontains=req)
+    students = Student.objects.filter(first_name__icontains=req, rmv=False) | \
+        Student.objects.filter(last_name__icontains=req, rmv=False)
     context = {
         "students": students,
     }
@@ -265,9 +267,9 @@ def classes_per_day(request, teacher_id, year, month, day):
             elif events_per_time:
                 for event in events_per_time:
                     scheduled_day += f'<tr><td>{event.start_time}</td>' \
-                                    f'<td>{event.subject.student}</td>' \
-                                    f'<td>{event.subject.subject}</td>' \
-                                    f'<td>По расписанию</td></tr>'
+                                     f'<td>{event.subject.student}</td>' \
+                                     f'<td>{event.subject.subject}</td>' \
+                                     f'<td>По расписанию</td></tr>'
             elif timestamp_per_time:
                 for timestamp in timestamp_per_time:
                     scheduled_day += f'<tr class="info"><td>{timestamp.start_time}</td>' \

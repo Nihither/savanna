@@ -20,7 +20,7 @@ class AddTeacherForm(forms.ModelForm):
 
 
 class AssignStudentToTeacherForm(forms.ModelForm):
-    student = forms.ModelChoiceField(queryset=Student.objects.all(), label='Студент',
+    student = forms.ModelChoiceField(queryset=Student.objects.filter(rmv=False), label='Студент',
                                      widget=forms.widgets.Select(attrs={"class": "form-control"}))
     subject = forms.ModelChoiceField(queryset=SubjectList.objects.all(), label='Предмет',
                                      widget=forms.widgets.Select(attrs={"class": "form-control"}))

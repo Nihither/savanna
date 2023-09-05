@@ -1,8 +1,7 @@
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404, Http404
 from django.views import View
 from django.core.serializers import serialize
-from .models import Student, Teacher, Subject, SubjectList
+from .models import Student, Teacher, Subject
 
 
 class StudentsList(View):

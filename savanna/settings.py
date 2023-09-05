@@ -13,9 +13,6 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import os.path
 from pathlib import Path
 
-import django.core.mail.backends.console
-
-import stuff.apps
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -57,12 +54,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'savanna.urls'
 
-TEMAPLATES_PATH = os.path.join(BASE_DIR, 'templates')
+TEMPLATES_PATH = os.path.join(BASE_DIR, 'templates')
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMAPLATES_PATH, ],
+        'DIRS': [TEMPLATES_PATH, ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

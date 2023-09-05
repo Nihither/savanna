@@ -4,7 +4,6 @@ from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, 
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from .accouts_forms import CustomPasswordResetForm, CustomSetPasswordForm, CustomPasswordChangeForm
-from savanna.settings import ALLOWED_HOSTS
 
 
 def user_login(request):
