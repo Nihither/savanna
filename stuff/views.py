@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from datetime import datetime, timedelta, date, time
 from .models import Student, Teacher, Subject, SubjectClass, AvailableTimestamp, ExtraClass
 from .utils import Calendar
-from .forms import AddTeacherForm, AddStudentForm
+from .forms import AddTeacherForm, AddStudentForm, AssignStudentToTeacherForm
 
 
 # Index view
@@ -25,6 +25,7 @@ def index(request):
     return render(request, 'stuff/index.html', context=context_dict)
 
 
+# Teacher section
 @login_required
 def get_teacher_list(request):
     teachers = Teacher.objects.filter(rmv=False)
@@ -42,6 +43,28 @@ def get_teacher_archive_list(request):
         "teachers": teachers,
     }
     template = loader.get_template('stuff/teacher_list.html')
+    return HttpResponse(template.render(context, request))
+
+
+@login_required
+def get_filtered_teacher_list(request):
+    req = request.GET['req']
+    print(req)
+    teachers = Teacher.objects.filter(first_name__icontains=req) | Teacher.objects.filter(last_name__icontains=req)
+    context = {
+        "teachers": teachers,
+    }
+    template = loader.get_template('stuff/teacher_list.html')
+    return HttpResponse(template.render(context,request))
+
+
+@login_required
+def subjects_per_teacher(request, teacher_id):
+    subjects = Subject.objects.filter(teacher__pk=teacher_id)
+    context = {
+        "subjects": subjects,
+    }
+    template = loader.get_template('stuff/subjects_per_teacher.html')
     return HttpResponse(template.render(context, request))
 
 
@@ -104,6 +127,32 @@ def archive_teacher(request, teacher_id):
 
 
 @login_required
+def assign_student_to_teacher(request, teacher_id):
+    if request.method == 'POST':
+        teacher = Teacher.objects.get(pk=teacher_id)
+        form_data = AssignStudentToTeacherForm(data=request.POST)
+        if form_data.is_valid():
+            new_subject = form_data.save(commit=False)
+            new_subject.teacher = teacher
+            new_subject.save()
+            return HttpResponse('Добавлено успешно', status='201')
+        else:
+            context = {
+                "form": form_data,
+            }
+            template = loader.get_template('stuff/assign_student_to_teacher.html')
+            return HttpResponse(template.render(context, request))
+    else:
+        form = AssignStudentToTeacherForm()
+        context = {
+            "form": form,
+        }
+        template = loader.get_template('stuff/assign_student_to_teacher.html')
+        return HttpResponse(template.render(context, request))
+
+
+# Student section
+@login_required
 def get_student_list(request):
     students = Student.objects.filter(rmv=False)
     context = {
@@ -118,6 +167,17 @@ def get_student_archive_list(request):
     students = Student.objects.filter(rmv=True)
     context = {
         "students": students
+    }
+    template = loader.get_template('stuff/student_list.html')
+    return HttpResponse(template.render(context, request))
+
+
+@login_required
+def get_filtered_student_list(request):
+    req = request.GET['req']
+    students = Student.objects.filter(first_name__icontains=req) | Student.objects.filter(last_name__icontains=req)
+    context = {
+        "students": students,
     }
     template = loader.get_template('stuff/student_list.html')
     return HttpResponse(template.render(context, request))

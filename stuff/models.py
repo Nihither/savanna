@@ -38,8 +38,8 @@ class Teacher(models.Model):
 
 
 class Subject(models.Model):
-    student = models.ForeignKey(to='Student', on_delete=models.CASCADE, null=True, blank=True, verbose_name='Преподаватель')
-    teacher = models.ForeignKey(to='Teacher', on_delete=models.CASCADE, null=True, blank=True, verbose_name='Студент')
+    student = models.ForeignKey(to='Student', on_delete=models.CASCADE, null=True, blank=True, verbose_name='Студент')
+    teacher = models.ForeignKey(to='Teacher', on_delete=models.CASCADE, null=True, blank=True, verbose_name='Преподаватель')
     subject = models.ForeignKey(to='SubjectList', on_delete=models.CASCADE, null=True, blank=True, verbose_name='Предмет')
 
     def __str__(self):

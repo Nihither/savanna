@@ -2,7 +2,7 @@ body {
   padding-bottom: 0px;
 }
 
-.teacher_list, .student_list {
+#teacher_list_body, #student_list_body {
   height: 460px;
   overflow-y: auto;
 }

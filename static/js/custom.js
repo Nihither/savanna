@@ -2,8 +2,11 @@
 
 $(document).ready(function () {
 
+    var timeout;
+
     get_teacher_list();
     get_student_list();
+    subjects_per_teacher();
 
     $('.date_in_calendar').click(function (e) { 
         e.preventDefault();
@@ -35,13 +38,20 @@ $(document).ready(function () {
         $('#show_archive_teacher_list').removeClass('active');
     });
 
+    $('#search_results_teacher_input').keyup(function(e) {
+        clearTimeout(timeout);
+        timeout = setTimeout(function() {
+            get_search_results_teacher();
+        }, 500);
+    });
+
     $('#add_teacher').click(function (e) { 
         e.preventDefault();
         let url = '/teacher/add/';
-        $("#add_person_title").text('Добавить преподавателя');
+        $("#index_page_modal_title").text('Добавить преподавателя');
         $.get(url, function (data, textStatus, jqXHR) {
-                $('#add_person_body').html(data);
-                $('#add_person_modal').modal('toggle');
+                $('#index_page_modal_body').html(data);
+                $('#index_page_modal').modal('toggle');
             },
             "html"
         );
@@ -49,7 +59,7 @@ $(document).ready(function () {
 
     $('#delete_teacher').click(function (e) { 
         e.preventDefault();
-        let url = $(this).attr('url');
+        let url = 'delete/';
         let form_data = $(this).children('input').serialize();
         $.ajax({
             type: "post",
@@ -66,7 +76,7 @@ $(document).ready(function () {
 
     $('#archive_teacher').click(function (e) { 
         e.preventDefault();
-        let url = $(this).attr('url');
+        let url = 'archive/';
         let form_data = $(this).children('input').serialize();
         $.ajax({
             type: "post",
@@ -79,6 +89,19 @@ $(document).ready(function () {
                 }, 2000);
             }
         });
+    });
+
+    $('#assign_student_to_teacher').click(function (e) { 
+        e.preventDefault();
+        let url = 'assign/';
+        console.log(url);
+        $("#teacher_page_modal_title").text('Назначить студента');
+        $.get(url, function (data, textStatus, jqXHR) {
+                $('#teacher_page_modal_body').html(data);
+                $('#teacher_page_modal').modal('toggle');
+            },
+            "html"
+        );
     });
 
     // student section
@@ -97,13 +120,20 @@ $(document).ready(function () {
         $('#show_archive_student_list').removeClass('active');
     });
 
+    $('#search_results_student_input').keyup(function(e) {
+        clearTimeout(timeout);
+        timeout = setTimeout(function() {
+            get_search_results_student();
+        }, 500);
+    });
+
     $('#add_student').click(function (e) { 
         e.preventDefault();
         let url = '/student/add/';
-        $("#add_person_title").text('Добавить преподавателя');
+        $("#index_page_modal_title").text('Добавить преподавателя');
         $.get(url, function (data, textStatus, jqXHR) {
-                $('#add_person_body').html(data);
-                $('#add_person_modal').modal('toggle');
+                $('#index_page_modal_body').html(data);
+                $('#index_page_modal').modal('toggle');
             },
             "html"
         );
@@ -111,7 +141,7 @@ $(document).ready(function () {
 
     $('#delete_student').click(function (e) { 
         e.preventDefault();
-        let url = $(this).attr('url');
+        let url = 'delete/';
         let form_data = $(this).children('input').serialize();
         $.ajax({
             type: "post",
@@ -128,7 +158,7 @@ $(document).ready(function () {
 
     $('#archive_student').click(function (e) { 
         e.preventDefault();
-        let url = $(this).attr('url');
+        let url = 'archive/';
         let form_data = $(this).children('input').serialize();
         $.ajax({
             type: "post",
@@ -173,12 +203,19 @@ function get_teacher_archive_list() {
 };
 
 function get_search_results_teacher() {
-    
-    $.get("/teacher/search/", data,
-        function (data, textStatus, jqXHR) {
+    let data = $('#search_results_teacher_form').serialize();
+    $.get("/teacher/search/", data, function (data, textStatus, jqXHR) {
             $('#teacher_list_body').html(data);
         },
-        "dataType"
+        "html"
+    );
+};
+
+function subjects_per_teacher() {
+    $.get("students/", function (data, textStatus, jqXHR) {
+            $('#students_list_per_teacher_panel').html(data);
+        },
+        "html"
     );
 };
 
@@ -189,12 +226,30 @@ function add_teacher() {
         url: "/teacher/add/",
         data: form_data,
         success: function (response) {
-            $('#add_person_modal').modal('toggle');
+            $('#index_page_modal').modal('toggle');
             get_teacher_list();
             trigger_alert(alert_text=response, alert_status='alert-success', delay=2000);
         },
-        error : function (response) {
-            $('#add_person_body').html(response.responseText);
+        error: function (response) {
+            $('#index_page_modal_body').html(response.responseText);
+        }
+    });
+};
+
+function assign_student_to_teacher() {
+    let url = 'assign/'
+    let form_data = $('#assign_student_to_teacher_form').serialize();
+    $.ajax({
+        type: "post",
+        url: url,
+        data: form_data,
+        success: function (response) {
+            $('#teacher_page_modal').modal('toggle');
+            subjects_per_teacher();
+            trigger_alert(alert_text=response, alert_status='alert-success', delay=2000);
+        },
+        error: function (response) {
+            $('#teacher_modal_body').html(response.responseText);
         }
     });
 };
@@ -217,6 +272,16 @@ function get_student_archive_list() {
     );
 };
 
+function get_search_results_student() {
+    let data = $('#search_results_student_form').serialize();
+    $.get("/student/search/", data,
+        function (data, textStatus, jqXHR) {
+            $('#student_list_body').html(data);
+        },
+        "html"
+    );
+};
+
 function add_student(params) {
     let form_data = $('#add_student_form').serialize();
     $.ajax({
@@ -224,12 +289,12 @@ function add_student(params) {
         url: "/student/add/",
         data: form_data,
         success: function (response) {
-            $('#add_person_modal').modal('toggle');
+            $('#index_page_modal').modal('toggle');
             get_student_list();
             trigger_alert(alert_text=response, alert_status='alert-success', delay=2000);
         },
         error: function (response) {
-            $('#add_person_body').html(response.responseText);
+            $('#index_page_modal_body').html(response.responseText);
         }
     });
 };

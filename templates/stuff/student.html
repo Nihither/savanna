@@ -26,13 +26,13 @@
                     </li>
                     <li class="dropdown" data-toggle="tooltip" data-placement="bottom" title="В архив">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                            <span class="glyphicon glyphicon-cog"></span>
+                            <span class="glyphicon glyphicon-trash"></span>
                         </a>
                         <ul class="dropdown-menu">
                             <li class="dropdown-header">Поместить в архив?</li>
                             <li class="divider" role="separator"></li>
                             <li>
-                                <a href="#" onclick="" id="archive_student" url="/student/{{ student.id }}/archive/">{% csrf_token %}
+                                <a href="#" onclick="" id="archive_student">{% csrf_token %}
                                     {% if student.rmv %}
                                         <span class="glyphicon glyphicon-eye-open"></span> Из архива
                                     {% else %}
@@ -42,7 +42,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="#" onclick="" id="delete_student" url="/student/{{ student.id }}/delete/">{% csrf_token %}
+                                <a href="#" onclick="" id="delete_student">{% csrf_token %}
                                     <span class="glyphicon glyphicon-trash"></span> Удалить
                                 </a>
                             </li>
