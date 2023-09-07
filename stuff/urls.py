@@ -1,8 +1,8 @@
 from django.urls import path
 from .views import index, get_teacher_list, get_teacher_archive_list, teacher_details, add_teacher, delete_teacher, \
     archive_teacher, get_student_list, get_student_archive_list, student_details, add_student, delete_student, \
-    archive_student, classes_per_day, get_filtered_teacher_list, get_filtered_student_list, assign_student_to_teacher, \
-    subjects_per_teacher
+    archive_student, classes_per_day, get_filtered_teacher_list, get_filtered_student_list, assign_stud_to_teach, \
+    subjects_per_teacher, reject_stud_to_teach
 from .api import StudentsList, StudentDetails, TeachersList, TeacherDetails, PersonView
 from .scheduler import birthday_notification
 from .account_views import user_login, user_logout, PasswordReset, PasswordResetDone, PasswordResetConfirm, \
@@ -16,13 +16,14 @@ views_patterns = [
     path('teacher/list/', get_teacher_list, name='teacher_list'),
     path('teacher/list/archive/', get_teacher_archive_list, name='teacher_archive_list'),
     path('teacher/search/', get_filtered_teacher_list, name='teacher_search_results'),
-    path('teacher/<int:teacher_id>/students/', subjects_per_teacher, name='subjects_per_teacher'),
     path('teacher/<int:teacher_id>/', teacher_details, name='teacher_details'),
     path('teacher/<int:teacher_id>/<int:year>/<int:month>/<int:day>/', classes_per_day, name='classes_per_day'),
     path('teacher/add/', add_teacher, name='add_teacher'),
     path('teacher/<int:teacher_id>/delete/', delete_teacher, name='delete_teacher'),
     path('teacher/<int:teacher_id>/archive/', archive_teacher, name='archive_teacher'),
-    path('teacher/<int:teacher_id>/assign/', assign_student_to_teacher, name='assign_student_to_teacher'),
+    path('teacher/<int:teacher_id>/students/', subjects_per_teacher, name='subjects_per_teacher'),
+    path('teacher/<int:teacher_id>/student/assign/', assign_stud_to_teach, name='assign_student_to_teacher'),
+    path('teacher/<int:teacher_id>/student/reject/', reject_stud_to_teach, name='reject_student_to_teacher'),
     # students
     path('student/list/', get_student_list, name='student_list'),
     path('student/list/archive/', get_student_archive_list, name='student_archive_list'),

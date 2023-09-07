@@ -6,7 +6,7 @@ $(document).ready(function () {
 
     get_teacher_list();
     get_student_list();
-    subjects_per_teacher();
+    get_subjects_per_teacher_list();
 
     $('.date_in_calendar').click(function (e) { 
         e.preventDefault();
@@ -70,6 +70,9 @@ $(document).ready(function () {
                 setTimeout(() => {
                     location.href = "/";
                 }, (delay+1000));
+            },
+            error: function (response) {
+                trigger_alert(alert_text=response.responseText, alert_status='alert-warning', delay=2000);
             }
         });
     });
@@ -85,16 +88,18 @@ $(document).ready(function () {
             success: function (response) {
                 trigger_alert(alert_text=response, alert_status='alert-success', delay=2000);
                 setTimeout(() => {
-                    location.reload();;
+                    location.reload();
                 }, 2000);
+            },
+            error: function (response) {
+                trigger_alert(alert_text=response.responseText, alert_status='alert-warning', delay=2000);
             }
         });
     });
 
     $('#assign_student_to_teacher').click(function (e) { 
         e.preventDefault();
-        let url = 'assign/';
-        console.log(url);
+        let url = 'student/assign/';
         $("#teacher_page_modal_title").text('Назначить студента');
         $.get(url, function (data, textStatus, jqXHR) {
                 $('#teacher_page_modal_body').html(data);
@@ -102,6 +107,38 @@ $(document).ready(function () {
             },
             "html"
         );
+    });
+
+    $('#reject_student_to_teacher').click(function (e) { 
+        e.preventDefault();
+        let url = 'student/reject/';
+        $("#teacher_page_modal_title").text('Удалить студента');
+        $.get(url, function (data, textStatus, jqXHR) {
+                $('#teacher_page_modal_body').html(data);
+                $('#teacher_page_modal').modal('toggle');
+            },
+            "html"
+        );
+    });
+
+    $('.reject_student').click(function (e) { 
+        e.preventDefault();
+        let url = 'student/reject/';
+        let subject_id = $(this).attr('subject_id');
+        let data = {
+            "subject_id": subject_id,
+        }
+        $.ajax({
+            type: "post",
+            url: url,
+            data: data,
+            success: function (response) {
+                trigger_alert(alert_text=response, alert_status='alert-success', delay=2000);
+                setTimeout(() => {
+                    get_subjects_per_teacher_list();
+                }, 2000);
+            }
+        });
     });
 
     // student section
@@ -152,6 +189,9 @@ $(document).ready(function () {
                 setTimeout(() => {
                     location.href = "/";
                 }, (delay+1000));
+            },
+            error: function (response) {
+                trigger_alert(alert_text=response.responseText, alert_status='alert-warning', delay=2000);
             }
         });
     });
@@ -169,6 +209,9 @@ $(document).ready(function () {
                 setTimeout(() => {
                     location.reload();;
                 }, 2000);
+            },
+            error: function (response) {
+                trigger_alert(alert_text=response.responseText, alert_status='alert-warning', delay=2000);
             }
         });
     });
@@ -211,7 +254,7 @@ function get_search_results_teacher() {
     );
 };
 
-function subjects_per_teacher() {
+function get_subjects_per_teacher_list() {
     $.get("students/", function (data, textStatus, jqXHR) {
             $('#students_list_per_teacher_panel').html(data);
         },
@@ -237,7 +280,7 @@ function add_teacher() {
 };
 
 function assign_student_to_teacher() {
-    let url = 'assign/'
+    let url = 'student/assign/'
     let form_data = $('#assign_student_to_teacher_form').serialize();
     $.ajax({
         type: "post",
@@ -245,7 +288,25 @@ function assign_student_to_teacher() {
         data: form_data,
         success: function (response) {
             $('#teacher_page_modal').modal('toggle');
-            subjects_per_teacher();
+            get_subjects_per_teacher_list();
+            trigger_alert(alert_text=response, alert_status='alert-success', delay=2000);
+        },
+        error: function (response) {
+            $('#teacher_modal_body').html(response.responseText);
+        }
+    });
+};
+
+function reject_student_to_teacher() {
+    let url = 'student/reject/'
+    let form_data = $('#reject_student_to_teacher_form').serialize();
+    $.ajax({
+        type: "post",
+        url: url,
+        data: form_data,
+        success: function (response) {
+            $('#teacher_page_modal').modal('toggle');
+            get_subjects_per_teacher_list();
             trigger_alert(alert_text=response, alert_status='alert-success', delay=2000);
         },
         error: function (response) {

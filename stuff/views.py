@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from datetime import datetime, timedelta, date, time
 from .models import Student, Teacher, Subject, SubjectClass, AvailableTimestamp, ExtraClass
 from .utils import Calendar
-from .forms import AddTeacherForm, AddStudentForm, AssignStudentToTeacherForm
+from .forms import AddTeacherForm, AddStudentForm, AssignStudentToTeacherForm, RejectStudentToTeacherForm
 
 
 # Index view
@@ -128,7 +128,7 @@ def archive_teacher(request, teacher_id):
 
 
 @login_required
-def assign_student_to_teacher(request, teacher_id):
+def assign_stud_to_teach(request, teacher_id):
     if request.method == 'POST':
         teacher = Teacher.objects.get(pk=teacher_id)
         form_data = AssignStudentToTeacherForm(data=request.POST)
@@ -149,6 +149,29 @@ def assign_student_to_teacher(request, teacher_id):
             "form": form,
         }
         template = loader.get_template('stuff/assign_student_to_teacher.html')
+        return HttpResponse(template.render(context, request))
+
+
+@login_required
+def reject_stud_to_teach(request, teacher_id):
+    if request.method == 'POST':
+        form_data = RejectStudentToTeacherForm(data=request.POST, teacher_id=teacher_id)
+        if form_data.is_valid():
+            student = form_data.cleaned_data['subject_to_delete']
+            student.delete()
+            return HttpResponse('Успешно удалено')
+        else:
+            context = {
+                "form": form_data
+            }
+            template = loader.get_template('stuff/reject_student_to_teacher.html')
+            return HttpResponse(template.render(context, request))
+    else:
+        form = RejectStudentToTeacherForm(teacher_id=teacher_id)
+        context = {
+            "form": form
+        }
+        template = loader.get_template('stuff/reject_student_to_teacher.html')
         return HttpResponse(template.render(context, request))
 
 
