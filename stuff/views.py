@@ -175,6 +175,13 @@ def reject_stud_to_teach(request, teacher_id):
         return HttpResponse(template.render(context, request))
 
 
+@login_required
+def set_available_timestamps(request, teacher_id):
+    context = {}
+    template = loader.get_template('stuff/set_available_timestamps.html')
+    return HttpResponse(template.render(context,request))
+
+
 # Student section
 @login_required
 def get_student_list(request):

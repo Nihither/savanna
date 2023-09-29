@@ -97,6 +97,18 @@ $(document).ready(function () {
         });
     });
 
+    $('#set_available_timestamps').click(function (e) { 
+        e.preventDefault();
+        let url = 'timestamps/'
+        $("#teacher_page_modal_title").text('Изменить окна');
+        $.get(url, function (data, textStatus, jqXHR) {
+                $('#teacher_page_modal_body').html(data);
+                $('#teacher_page_modal').modal('toggle');
+            },
+            "html"
+        );
+    });
+
     $('#assign_student_to_teacher').click(function (e) { 
         e.preventDefault();
         let url = 'student/assign/';
@@ -119,26 +131,6 @@ $(document).ready(function () {
             },
             "html"
         );
-    });
-
-    $('.reject_student').click(function (e) { 
-        e.preventDefault();
-        let url = 'student/reject/';
-        let subject_id = $(this).attr('subject_id');
-        let data = {
-            "subject_id": subject_id,
-        }
-        $.ajax({
-            type: "post",
-            url: url,
-            data: data,
-            success: function (response) {
-                trigger_alert(alert_text=response, alert_status='alert-success', delay=2000);
-                setTimeout(() => {
-                    get_subjects_per_teacher_list();
-                }, 2000);
-            }
-        });
     });
 
     // student section
@@ -214,6 +206,12 @@ $(document).ready(function () {
                 trigger_alert(alert_text=response.responseText, alert_status='alert-warning', delay=2000);
             }
         });
+    });
+
+    // other section
+
+    $('#teacher_page_modal_body').on('click', '.schedule_cell_checkbox', function () {
+        $(this).toggleClass('info');
     });
 
     // how to use jq on dinamic objects

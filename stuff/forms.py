@@ -43,7 +43,7 @@ class RejectStudentToTeacherForm(forms.ModelForm):
         self.fields['subject_to_delete'].queryset = subjects
 
     subject_to_delete = ModelSelectForRejectStud(queryset=Subject.objects.all(), label='Студент',
-                                       widget=forms.Select(attrs={"class": "form-control"}))
+                                                 widget=forms.Select(attrs={"class": "form-control"}))
 
     class Meta:
         model = Subject
