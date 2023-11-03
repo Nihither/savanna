@@ -1,12 +1,15 @@
+import secrets
+
 from django.http import HttpResponse
 from .models import Student, Teacher
+from savanna import secrets
 from datetime import datetime, timedelta
 import requests
 
 
 def birthday_notification(request):
-    bot_token = '6120853183:AAFAkD0XFkS3p_ZckGOCDadTG6K4eQ8T0tA'
-    chat_id = '-1001799471579'
+    bot_token = secrets.bot_token
+    chat_id = secrets.chat_id
     url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
     date_today = datetime.today()
     text = ''
